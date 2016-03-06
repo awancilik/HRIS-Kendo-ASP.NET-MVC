@@ -1,0 +1,76 @@
+﻿@using Kendo.Mvc.UI
+@{
+    ViewBag.Title = "My dashboard";
+    ViewBag.TitleFeatured = "Notification";
+    ViewBag.TitleRightSidebar = "My Wall";
+    ViewBag.GridClass = "col-md-12";
+    ViewBag.IsKendoEnabled = true;
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery.signalR-2.1.2.min.js")"></script>
+    <script src="@Url.Content("~/signalr/hubs")"></script>
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+    <script src="@Url.Content("~/Scripts/signalr.initconnection.js")"></script>
+}
+
+@if (Roles.IsUserInRole("Administrator"))
+{
+    @Html.Action("DashboardAdmin", "Home")
+}
+else
+{
+    if (Roles.IsUserInRole("Account Manager"))
+    {
+        @Html.Action("DashboardAccountManager", "Home")
+    }
+
+    if (Roles.IsUserInRole("Quality Control"))
+    {
+        @Html.Action("DashBoardQualityControl", "Home")
+    }
+
+    if (Roles.IsUserInRole("Qualifier"))
+    {
+        @Html.Action("DashboardQualifier", "Home")
+    }
+
+    if (Roles.IsUserInRole("Production Manager"))
+    {
+        @Html.Action("DashBoardProductionManager", "Home")
+    }
+
+    if (Roles.IsUserInRole("Screener"))
+    {
+        @Html.Action("DashBoardScreener", "Home")
+    }    
+}
+
+
+@if (Roles.IsUserInRole("Client"))
+{
+    @Html.Action("DashboardClient", "Home")
+}
+
+
+    
+@section rightSideBar{
+    @if (Roles.IsUserInRole("Administrator"))
+    {
+        <div id="notification_container" class="auto_scroll" style="height: 1071px;">
+            @Html.Action("Notification", "Home")
+        </div>
+    }
+    else
+    {
+        <div id="notification_container" class="auto_scroll" style="height: 543px;">
+            @Html.Action("Notification", "Home")
+        </div>
+    }
+    
+}
+
+<div class="modal fade in" id="assign-modal">
+    <div id="assign-modal-container"></div>
+</div>

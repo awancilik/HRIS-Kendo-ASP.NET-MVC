@@ -1,0 +1,67 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model  CVScreeningWeb.ViewModels.Home.DashboardProductionManagerViewModel
+
+@{
+    ViewBag.IsKendoEnabled = true;
+}
+
+@using (var tabs = Html.Bootstrap().Begin(new Tabs("TabsId")))
+{
+    @tabs.Tab(Home.AtomicCheckToDispatch)
+    @tabs.Tab(Home.AtomicCheckOnGoing)
+    @tabs.Tab(Home.AtomicCheckPendingValidation)
+
+    
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksToAssign)
+    }
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksOnGoing)
+    }
+        using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksPendingValidation)
+    }
+}
+    
+
+
+   <script>
+    $('.assign-atomic-check').click(function () {
+        var url = "/AtomicCheck/AssignedTo"; // the url to the controller
+        var atomicCheckId = $(this).attr('data-id'); // Atomic check Id
+        var screeningId = $(this).attr('data-screeningid'); // Screening Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + atomicCheckId + '/' + screeningId, function (data) {
+            $('#assign-modal-container').html(data);
+            $('#assign-modal').modal('show');
+        });
+    });
+
+    $(document).ready(function () {
+
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            value = value.replace("Rejected", "");   // Clean div content before checking that it is atomic check status
+            if (screeningNamespace.isAtomicCheckStatus(value)) {
+                var myclass = "atomiccheck_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+        $('td:nth-last-child(2)').each(fillStatusCell);
+        $('td:nth-last-child(3)').each(fillStatusCell);
+    });
+
+</script>

@@ -1,0 +1,42 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model  CVScreeningWeb.ViewModels.Home.DashboardClientViewModel
+
+@{
+    ViewBag.IsKendoEnabled = true;
+}
+
+@using (var tabs = Html.Bootstrap().Begin(new Tabs("TabsId")))
+{
+    @tabs.Tab(Home.ScreeningOnGoing)
+    @tabs.Tab(Home.ScreeningCompleted)
+    
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_ScreeningGridViewClient", Model.ScreeningOnGoing)
+    }
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_ScreeningGridViewClient", Model.ScreeningCompleted)
+    }
+}    
+
+
+<script>
+
+    $(document).ready(function () {
+
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isScreeningStatus(value)) {
+                var myclass = "screening_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+        $('td:nth-last-child(2)').each(fillStatusCell);
+    });
+
+</script>

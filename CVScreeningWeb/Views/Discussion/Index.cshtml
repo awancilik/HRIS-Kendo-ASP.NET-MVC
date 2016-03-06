@@ -1,0 +1,100 @@
+﻿@using CVScreeningCore.Models
+@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Discussion.DiscussionDetailsViewModel
+
+@{
+    ViewBag.Title = Model.DiscussionTitle;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+
+<div class="chat-conversation">
+    <div class="slimScrollDiv">
+        <ul class="conversation-list">
+            @foreach (var message in Model.Messages)
+            {
+                // My message are displayed on the left
+                if (User.Identity.Name == message.CreatedByUserName)
+                {
+                    @Html.Raw("<li class='clearfix me'>");
+                }
+                else
+                {
+                    @Html.Raw("<li class='clearfix odd'>");
+                }
+               <div style="width: 90px;" class="chat-avatar">
+                    <img style="width:45px" src="@Url.Action("GetProfilePicture", "Account", new { userName = @message.CreatedByUserName })" alt="Profile picture">
+                    <i>@message.CreatedDate.ToString("dd/MM/yy HH:mm")</i>
+                </div>
+                <div class="conversation-text">
+                    <div class="ctext-wrap">
+                        <i>@message.CreatedByFullName</i>
+                        <p>
+                            @message.Message
+                        </p>
+                    </div>
+                </div>
+                @Html.Raw("</li>");
+            }
+        </ul>
+    </div>
+
+    <div id="send-message-form">
+        @using (Ajax.BeginForm("SendMessage", "Discussion", FormMethod.Post,
+            new AjaxOptions
+            {
+                HttpMethod = "POST",
+                OnSuccess = "onSuccessSendMessage",
+                OnFailure = "onFailureSendMessage"
+            }))
+            {
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(u => u.DiscussionId)
+
+                <div class="row" style="padding-top: 25px;">
+                    <div class="col-xs-9">
+                        <input type="text" id="Message" name="Message" class="form-control chat-input" placeholder="Enter your text">
+                    </div>
+                    <div class="col-xs-3 chat-send">
+                        @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                    </div>
+                </div>
+                <div class="row" style="padding-bottom: 25px;">
+                    <div class="col-xs-9">
+                        <p id="send-message-form-error" class="message-error"></p>
+                    </div>
+                    <div class="col-xs-3">
+                    </div>
+                </div>
+            }
+    </div>
+</div>
+
+
+    <script>
+        // Function call when send message action is successfully executed.
+        function onSuccessSendMessage(data, status, xhr) {
+            var returnCode = data['Success'];
+            var message = (data['Message']);
+
+            if (returnCode == true) {   // Message insert successfully to database
+                document.location.reload();
+            } else {
+                $("#send-message-form-error").html(message);
+            }
+        }
+
+        // Function call when send message action failed.
+        function onFailureSendMessage(data, status, xhr) {
+            $("#send-message-form-error").html(message);
+        }
+
+    </script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,29 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Common.AddressViewModel
+
+@{
+    var location = "";
+    if (Model.LocationViewModel.SubDistrictName != "")
+    {
+        location = Model.Street + "\n" + Model.LocationViewModel.SubDistrictName + ", " + Model.LocationViewModel.DistrictName + "\n" +
+                   Model.LocationViewModel.CityName + " " + Model.PostalCode + "\n" + Model.LocationViewModel.ProvinceName
+                   + "\n" + Model.LocationViewModel.CountryName;
+    }
+    else
+    {
+        location = Model.Street + "\n" + Model.LocationViewModel.CountryName;
+    }
+
+                           
+}
+
+@{
+        <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.Street).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.Bootstrap().TextArea("Address").Value(location).Class("form-control").Readonly()
+                </div>
+            </div>
+}

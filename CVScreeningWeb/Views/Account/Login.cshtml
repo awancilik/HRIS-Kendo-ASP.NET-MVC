@@ -1,0 +1,51 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Account.AccountLoginViewModel
+
+@{
+    ViewBag.Title = Account.LoginTitle;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+}
+
+<section id="loginForm">
+    <div class="alert alert-success">
+        @Account.PleaseSignIn
+    </div>
+
+    @using (Html.BeginForm(new {ViewBag.ReturnUrl}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true)
+
+        <fieldset>
+            @(Html.Bootstrap().LabelFor(m => m.UserName)
+                  .LabelText(Common.Email)
+                  .ShowRequiredStar(true))
+            <br />
+            @(Html.Bootstrap().TextBoxFor(m => m.UserName)
+                  .Class("form-control").Placeholder("your@email.com"))
+            @Html.ValidationMessageFor(m => m.UserName)
+            <br />
+            @(Html.Bootstrap().LabelFor(m => m.Password)
+                  .LabelText(Account.Password)
+                  .ShowRequiredStar(true))
+            <br/>
+            @(Html.Bootstrap().PasswordFor(m => m.Password)
+                  .Class("form-control").Placeholder("Password"))
+            @Html.ValidationMessageFor(m => m.Password)
+            <br/>
+            @Html.Bootstrap().SubmitButton().Text(Account.LoginTitle).Class("btn btn-primary")
+            <br/>
+        </fieldset>
+        <p>
+            <br/>
+            @Html.ActionLink(Account.IForgetMyPassword, "RecoverPassword")
+            <br/>
+        </p>
+    }
+</section>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

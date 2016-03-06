@@ -1,0 +1,21 @@
+﻿@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Error.ErrorIndexViewModel
+
+<div class="error-head"></div>
+<div class="container">
+    <section class="error-wrapper text-center">
+        <h1>
+            <img src="/Images/403.png" alt="">
+        </h1>
+        <div class="error-desk" style="background: none;">
+            <h2>@Error.AccessDenied</h2>
+            <br />
+            <p>@Error.NotAuthorized</p>
+        </div>
+
+        <a href="/" class="back-btn home">
+            <i class="fa fa-home"><span class="button_text">@Error.BackToHome</span></i> 
+        </a>
+
+    </section>
+</div>

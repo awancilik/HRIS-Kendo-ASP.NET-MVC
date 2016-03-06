@@ -1,0 +1,18 @@
+﻿@using CVScreeningWeb.Helpers
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.IsKendoEnabled = true;
+}
+
+<div class="form-group">
+    @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+    <div class=@CSSHelper.INPUT_DIV_CLASS>
+        @(Html.Kendo().Upload()
+              .Name("attachments")
+              .Async(async => async
+                  .Save("Submit", "File")
+              )
+              )
+    </div>
+</div>

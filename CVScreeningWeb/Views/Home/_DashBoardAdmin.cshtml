@@ -1,0 +1,132 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model  CVScreeningWeb.ViewModels.Home.DashboardAdministratorViewModel
+
+@{
+}
+
+@using (var tabs = Html.Bootstrap().Begin(new Tabs("TabsAtomicCheckId")))
+{
+    @tabs.Tab(Home.AtomicCheckToDispatch)
+    @tabs.Tab(Home.AtomicCheckOnGoing)
+    @tabs.Tab(Home.AtomicCheckPendingValidation)
+    
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksToAssign)
+    }
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksOnGoing)
+    }
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksPendingValidation)
+    }
+}    
+
+<br/><br />
+
+
+@using (var tabs = Html.Bootstrap().Begin(new Tabs("TabsScreeningId")))
+{
+    @tabs.Tab(Home.ScreeningToQualify)
+    @tabs.Tab(Home.ScreeningOnGoing)
+    @tabs.Tab(Home.ScreeningToSubmit)
+
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_ScreeningGridView", Model.ScreeningToQualify)
+    }
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_ScreeningGridView", Model.ScreeningOnGoing)
+    }
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_ScreeningGridView", Model.ScreeningToSubmit)
+    }
+}    
+
+
+
+<script>
+    $('.assign-atomic-check').click(function () {
+        var url = "/AtomicCheck/AssignedTo"; // the url to the controller
+        var atomicCheckId = $(this).attr('data-id'); // Atomic check Id
+        var screeningId = $(this).attr('data-screeningid'); // Screening Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + atomicCheckId + '/' + screeningId, function (data) {
+            $('#assign-modal-container').html(data);
+            $('#assign-modal').modal('show');
+        });
+    });
+
+
+    $('.assign-screening').click(function () {
+        var url = "/Screening/AssignedTo"; // the url to the controller
+        var screeningId = $(this).attr('data-id'); // Screening  Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + screeningId, function (data) {
+            $('#assign-modal-container').html(data);
+            $('#assign-modal').modal('show');
+        });
+    });
+
+
+    $(document).ready(function () {
+
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCellAtomicCheck = function () {
+            var value = $(this).text();
+            value = value.replace("Rejected", "");   // Clean div content before checking that it is atomic check status
+            if (screeningNamespace.isAtomicCheckStatus(value)) {
+                var myclass = "atomiccheck_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+
+        var fillStatusCellScreening = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isScreeningStatus(value)) {
+                var myclass = "screening_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+        var fillStatusCellScreeningQualifier = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isQualifierStatus(value)) {
+                var myclass = "qualifier_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+
+            if (screeningNamespace.isWronglyQualified(value)) {
+                $(this).parent().addClass('atomic_check_rejected');
+            }
+
+        };
+
+        $('td:nth-last-child(2)').each(fillStatusCellAtomicCheck);
+        $('td:nth-last-child(3)').each(fillStatusCellAtomicCheck);
+        $('td:nth-last-child(2)').each(fillStatusCellScreening);
+        $('td:nth-last-child(2)').each(fillStatusCellScreeningQualifier);
+
+    });
+
+</script>

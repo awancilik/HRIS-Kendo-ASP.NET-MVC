@@ -1,0 +1,240 @@
+﻿@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Dispatching.MatrixViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Dispatching.SkillMatrix;
+    ViewBag.IsKendoEnabled = true; //include Kendo Library
+}
+
+<div class="form-horizontal">
+    @*//to display multiselect *@
+    
+    @Html.EditorFor(m => m.ScreenerCategoryFilter)
+
+    @Html.EditorFor(m => m.ColumnFilter)
+    @Html.EditorFor(m => m.RowFilter)
+    @Html.EditorFor(m => m.CategoryFilter)
+
+    <div class="form-group" style="text-align: right">
+        @Html.ActionLink(Dispatching.ManageDefaultValue, "ManageDefaultValue", "Dispatching", new { @class = "btn btn-default" })
+        <button id="filterButton" class="btn btn-default">@Dispatching.Filter</button>
+    </div>
+
+    <div class="form-group">
+        <div id="gridMatrix"></div>
+        <div id="modalWindow">
+            <div class="options">
+                <h3>Value to fill</h3>
+                <input id="value-type" value="1" />
+            </div>
+            <div id="custom-value" class="options">
+                <input id='custom-value-input' class='k-textbox' type="text" min="0" max="100" value="1" />
+            </div>
+            <div class="options">
+                <button id="send-value-button" class="btn btn-default">Set</button>
+            </div>
+        </div>
+        <style scoped>
+            .options { padding: 1px 30px 30px 30px; }
+
+            .options h3 {
+                font-size: 1em;
+                font-weight: bold;
+                margin: 25px 0 8px 0;
+            }
+        </style>
+        <script type="text/javascript">
+    var modalWindow = $("#modalWindow").kendoWindow({
+        modal: true,
+        visible: false
+    }).data("kendoWindow");
+
+    function initDropDownList() {
+        var data = [
+            { text: "Custom Value", value: "0" },
+            { text: "Default Value", value: "@CVScreeningCore.Models.SkillMatrix.kDefaultValueString" },
+            { text: "Imposible", value: "@CVScreeningCore.Models.SkillMatrix.kImpossibleValueString" }
+        ];
+
+        // create DropDownList from input HTML element
+        $("#value-type").kendoDropDownList({
+            dataTextField: "text",
+            dataValueField: "value",
+            dataSource: data,
+            index: 0,
+            change: function (e) {
+                var value = $("#value-type").val();
+                if (value == 0) {
+                    $('#custom-value').show();
+                } else {
+                    $('#custom-value').hide();
+                }
+            }
+        });
+
+        var color = $("#value-type").data("kendoDropDownList");
+        color.select(0);
+    }
+
+    function buildDataSource() {
+        var rowFilter = $('#RowFilter_SelectedItems').data('kendoMultiSelect');
+        var categoryFilter = $('#CategoryFilter_SelectedItems').data('kendoMultiSelect');
+        var crudServiceBaseUrl = "/Dispatching/",
+            dataSource = new kendo.data.DataSource({
+                type: "aspnetmvc-ajax",
+                transport: {
+                    read: {
+                        url: crudServiceBaseUrl + "/SkillMatrix_Read",
+                        dataType: "json",
+                        data: function () {
+                            return {
+                                rowIds: rowFilter.value(),
+                                catIds: categoryFilter.value()
+                            };
+                        }
+                    },
+                    update: {
+                        url: crudServiceBaseUrl + "/SkillMatrix_Update",
+                        type: "POST",
+                        dataType: "json"
+                    },
+                    parameterMap: function (options, operation) {
+                        if (operation !== "read" && options.models) {
+                            return { models: kendo.stringify(options.models) };
+                        }
+                    }
+                },
+                batch: true,
+                pageSize: 20,
+                schema: {
+                    model: {
+                        id: "RowId",
+                        fields: {
+                            @{
+                                        var matrix = Model.Matrix;
+                                        foreach (var currentColumn in matrix.ToArray()[0]["Attributes"].Split('|'))
+                                        {
+                                            if (!(currentColumn == null || currentColumn.ToString().Equals(string.Empty)))
+                                            {
+                                                @Html.Raw(string.Format("{0} : {1} type: {3}text{3} {2},\n",
+                                                    currentColumn, '\u007b', '\u007D', '\u0022'))
+                                            }
+                                        }
+                                    }
+                            RowName: { editable: false },
+                            Category: { editable: false }
+                        }
+                    }
+                }
+            });
+
+        return dataSource;
+    }
+
+    function instatiateGridView(passingDataSource) {
+        $("#gridMatrix").kendoGrid({
+            dataSource: passingDataSource,
+            navigatable: true,
+            pageable: true,
+            height: 550,
+            toolbar: ["save", "cancel"],
+            columns: [
+                { field: "RowName", title: "Place" },
+                { field: "Category", title: "Category" },
+                // define columns programmatically
+                @{
+                            matrix = Model.Matrix;
+                            for (int index = 0, len = matrix.ToArray()[0]["Attributes"].Split('|').Length; index < len; index++)
+                            {
+                                var currentAttribute = matrix.ToArray()[0]["Attributes"].Split('|')[index];
+                                var currentColumnName = matrix.ToArray()[0]["ColumnNames"].Split('|')[index];
+                                if (!(currentAttribute == null || currentAttribute.ToString().Equals(string.Empty)))
+                                {
+                                    @Html.Raw(string.Format("{0} field: {2}{3}{2}, title: {2}{4}{2} {1}{5}\n",
+                                        '\u007b', '\u007D', '\u0022', currentAttribute, currentColumnName,
+                                        index < len - 2 ? "," : string.Empty))
+                                }
+                            }
+                        }
+            ],
+            edit: bindToModalWindow,
+            dataBound: colorize,
+            editable: {
+                update: true
+            }
+        });
+    }
+
+    function colorize() {
+        $('td').each(
+            function () {
+                if ($(this).text() == '@CVScreeningCore.Models.SkillMatrix.kDefaultValueString') {
+                    $(this).addClass('@CVScreeningCore.Models.SkillMatrix.kDefaultValueString');
+                } else if ($(this).text() == '@CVScreeningCore.Models.SkillMatrix.kImpossibleValueString') {
+                    $(this).addClass('@CVScreeningCore.Models.SkillMatrix.kImpossibleValueString');
+                    }
+                });
+            }
+
+            function bindToModalWindow(e) {
+                var model = e.model; //get reference to the currently edited model
+                var field = e.container.find("input").attr("name");
+                modalWindow.center();
+
+
+                $('#send-value-button').one("click", function(e) {
+                    var value = $('#value-type').val();
+
+                    if (value == 0) // if its is set as custom value
+                    {
+                        value = $('#custom-value-input').val();
+                        if (value == '') {
+                            alert('Please set the value');
+                            modalWindow.close();
+                            return;
+                        }
+                    }
+
+                    $('#custom-value-input').val(""); //reset the input value
+                    model.set(field, value); //update dataSource
+
+                    modalWindow.close();
+                });
+
+                modalWindow.open(); //open the window
+            }
+
+            function bindComboBox() {
+                $('#ScreenerCategoryFilter_PostData').bind("change", function(e) {
+                    var selectedValue = $('#ScreenerCategoryFilter_PostData :selected').val();
+
+                    if (selectedValue == 1)
+                        window.location.replace('/Dispatching/ManageSkillMatrix');
+                    if (selectedValue == 2)
+                        window.location.replace("/Dispatching/ManageSkillMatrix/2");
+
+                    console.log();
+                });
+            };
+
+            $(document).ready(function() {
+                $("#custom-value-input").kendoNumericTextBox();
+
+                initDropDownList();
+                modalWindow.close();
+                var dataSource = buildDataSource();
+                instatiateGridView(dataSource);
+                filterMatrixDataGrid(dataSource);
+
+                bindComboBox();
+            });
+
+        </script>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/theme/filterMatrixDataGrid.js"></script>
+}

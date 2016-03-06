@@ -1,0 +1,22 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Contact.PhoneViewModel
+
+@{
+    
+    
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-lg-2">
+            @Html.Bootstrap().DropDownListFor(m => m.CountryCode, Model.SelectListItems).Class("form-control")
+        </div>
+        <div class="col-md-7">
+            @Html.Bootstrap().TextBoxFor(m => m.AreaCode).Class("form-control")
+            @Html.ValidationMessageFor(m => m.AreaCode)
+            @Html.HiddenFor(m => m.IsMandatory)
+        </div>
+    </div>
+    
+<script src="~/Scripts/mvcfoolproof.unobtrusive.min.js"></script>
+<script src="~/Scripts/MvcFoolproofValidation.min.js"></script>
+<script src="~/Scripts/MvcFoolproofJQueryValidation.min.js"></script>
+}

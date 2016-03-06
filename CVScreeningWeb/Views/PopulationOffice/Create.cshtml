@@ -1,0 +1,54 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model CVScreeningWeb.ViewModels.PopulationOffice.PopulationOfficeFormViewModel
+
+@{
+    ViewBag.Title = Common.SubmitTitle + " " + PopulationOffice.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+
+@using (Html.BeginForm("Create", "PopulationOffice", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+        </div>
+        @Html.EditorFor(m => m.AddressViewModel)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Description).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Description).Class("form-control").Value(Model.Description)
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class=@CSSHelper.BUTTON_CONTROL_CLASS>
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @Html.ActionLink(Common.Cancel, "Index", "PopulationOffice", null, new { Class = "btn  btn-default" })
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style scoped>
+    .k-readonly {
+        color: gray;
+    }
+</style>

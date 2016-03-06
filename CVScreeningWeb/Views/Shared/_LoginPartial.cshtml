@@ -1,0 +1,34 @@
+﻿
+@if (Request.IsAuthenticated)
+{
+    <!--search & user info start-->
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new {id = "logoutForm", @class = "navbar-right"}))
+    {
+        @Html.AntiForgeryToken()
+        <ul class="nav pull-right top-menu">
+            <!-- user login dropdown start-->
+            <li class="dropdown">
+                <a data-toggle="dropdown" class="dropdown-toggle icon-bar" href="#">
+                    <img alt="" src="@Url.Action("GetProfilePicture", "Account", new { userName = @User.Identity.Name })">
+                    <span class=" username">@User.Identity.Name</span>
+                    <b class="caret"></b>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>@Html.ActionLink(@"My profile", "EditProfile", "Account", null, null)</li>
+                    <li>@Html.ActionLink(@"Change my password", "UpdatePassword", "Account", null, null)</li>
+                    <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                </ul>
+            </li>
+            <!-- user login dropdown end -->
+        </ul>
+    }
+    <!--search & user info end-->
+}
+else
+{
+    <div class="pull-right">
+        <div class="col-md-4 pull-left">
+            @Html.ActionLink("Log in", "Login", "Account", null, new {id = "loginLink", @class = "btn btn-default"})    
+        </div>
+    </div>
+}

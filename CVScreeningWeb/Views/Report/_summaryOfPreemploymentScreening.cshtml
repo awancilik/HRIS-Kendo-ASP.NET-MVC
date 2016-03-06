@@ -1,0 +1,147 @@
+﻿@using CVScreeningCore.Models.AtomicCheckState
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Report.SummaryReportViewModel
+
+<table class="tg">
+    <tr>
+        <th class="tg-tbm7" colspan="6">Summary of Pre-Employment Screening</th>
+    </tr>
+    <tr>
+        <td class="tg-uukg" colspan="6">Personal Detail</td>
+    </tr>
+    <tr>
+        <td class="report-label" colspan="2">@Html.LabelFor(m => m.Name)</td>
+        <td class="tg-031e" colspan="4">@Model.Name</td>
+    </tr>
+    <tr>
+        <td class="report-label" colspan="2">@Html.LabelFor(m => m.PlaceOfBirth), @Html.LabelFor(m => m.DateOfBirth)</td>
+        <td class="tg-031e" colspan="4">@Model.PlaceOfBirth, @Model.DateOfBirth</td>
+    </tr>
+    @if (!String.IsNullOrEmpty(Model.IDCardNumber))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.IDCardNumber)</td>
+            <td class="tg-031e" colspan="4">@Model.IDCardNumber</td>
+        </tr>
+    }
+    @if (!String.IsNullOrEmpty(Model.PassportNumber))
+    {
+    <tr>
+        <td class="report-label" colspan="2">@Html.LabelFor(m => m.PassportNumber)</td>
+        <td class="tg-031e" colspan="4">@Model.PassportNumber</td>
+    </tr>   
+    }
+    <tr>
+        <td class="report-label" colspan="2">@Html.LabelFor(m => m.MaritalStatus)</td>
+        <td class="tg-031e" colspan="4">@Model.MaritalStatus</td>
+    </tr>
+    @if (!String.IsNullOrEmpty(Model.CVAddress))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.CVAddress)</td>
+            <td class="tg-031e" colspan="4">@Model.CVAddress</td>
+        </tr>
+    }
+    @if (!String.IsNullOrEmpty(Model.CurrentAddress))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.CurrentAddress)</td>
+            <td class="tg-031e" colspan="4">@Model.CurrentAddress</td>
+        </tr>
+    }
+    @if (!String.IsNullOrEmpty(Model.IDCardAddress))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.IDCardAddress)</td>
+            <td class="tg-031e" colspan="4">@Model.IDCardAddress</td>
+        </tr>
+    }
+    @if (!String.IsNullOrEmpty(Model.MobilePhoneNumber))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.MobilePhoneNumber)</td>
+            <td class="tg-031e" colspan="4">@Model.MobilePhoneNumber</td>
+        </tr>
+    }
+    @if (!String.IsNullOrEmpty(Model.HomePhoneNumber))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.HomePhoneNumber)</td>
+            <td class="tg-031e" colspan="4">@Model.HomePhoneNumber</td>
+        </tr>
+    }
+    @if (!String.IsNullOrEmpty(Model.EmergencyContactName) && !String.IsNullOrEmpty(Model.EmergencyContactNumber))
+    {
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.EmergencyContactName)</td>
+            <td class="tg-031e" colspan="4">@Model.EmergencyContactName</td>
+        </tr>
+
+        <tr>
+            <td class="report-label" colspan="2">@Html.LabelFor(m => m.EmergencyContactNumber)</td>
+            <td class="tg-031e" colspan="4">@Model.EmergencyContactNumber</td>
+        </tr>
+    }
+    <tr>
+        <td class="tg-uukg" colspan="6">Indicator</td>
+    </tr>
+    <tr>
+        <td class="report-label" colspan="2">Level</td>
+        <td class="tg-031e" colspan="4">Level B</td>
+    </tr>
+    <tr>
+        <td class="DONE_OK">Valid</td>
+        <td class="DONE_KO">Invalid</td>
+        <td class="DONE_IMPOSSIBLE">Remarks</td>
+        <td class="DONE_DISCREPANCY">Discrepancy</td>
+        <td class="PENDING_CONFIRMATION">Pending confirmation</td>
+    </tr>
+    <tr>
+        <td class="tg-uukg" colspan="6">Verification</td>
+    </tr>
+    @for (var i = 0; i < Model.TypeOfChecks.Count(); i++)
+    {
+        var typeofCheck = Model.TypeOfChecks.ToArray()[i];
+
+        for (var j = 0; j < typeofCheck.Verifications.Count(); j++)
+        {
+            var verification = typeofCheck.Verifications.ToArray()[j];
+            if (verification.Status != Convert.ToString(AtomicCheckStateType.NOT_APPLICABLE))
+            {
+                <tr>
+                    @if (j == 0)
+                    {
+                        var typeOfCheckName = typeofCheck.Name;
+                        if (typeOfCheckName.ToLower().Contains("media check"))
+                        {
+                            typeOfCheckName = "Media Check";
+                        }
+                        if (typeOfCheckName.ToLower().Contains("education check"))
+                        {
+                            typeOfCheckName = "Education Check";
+                        }
+                        if (typeOfCheckName.ToLower().Contains("employment check"))
+                        {
+                            typeOfCheckName = "Employment Check";
+                        }
+                        <td class="report-label" colspan="2">@typeOfCheckName</td>
+                    }
+                    else
+                    {
+                        <td class="report-label" colspan="2"></td>
+                    }
+                    <td class="tg-031e" colspan="2">@verification.Name</td>
+                    <td class=@verification.Status colspan="2">@verification.Note</td>
+
+                </tr>
+            }
+        }
+    }
+    @if (Model.AdditionnalRemarks != Report.AdditionnalRemarksDefault)
+    {
+        <tr>
+            <td class="report-label" colspan="2">Additional Remarks</td>
+            <td class="tg-031e" colspan="4">@Model.AdditionnalRemarks</td>
+        </tr>
+    }
+</table>

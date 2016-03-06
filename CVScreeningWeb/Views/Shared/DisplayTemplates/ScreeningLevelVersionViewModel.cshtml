@@ -1,0 +1,36 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Screening.ScreeningLevelVersionViewModel
+
+@{
+    if (!Model.IsClientMode)
+    {
+        <div class="form-group">
+            @Html.Bootstrap().Label(CVScreeningWeb.Resources.ClientCompany.Object).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.ClientCompanyName).Class("form-control").Readonly()
+            </div>
+        </div>
+    }
+
+    <div class="form-group">
+        @Html.Bootstrap().Label(CVScreeningWeb.Resources.ClientCompany.Contract).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().TextBoxFor(m => m.ContractName).Class("form-control").Readonly()
+            @Html.HiddenFor(m => m.ContractId)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Bootstrap().Label(CVScreeningWeb.Resources.Screening.ScreeningLevel).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().TextBoxFor(m => m.ScreeningLevelName).Class("form-control").Readonly()
+            @Html.HiddenFor(m => m.ScreeningLevelId)
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Bootstrap().Label(CVScreeningWeb.Resources.Screening.ScreeningLevelVersion).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().TextBoxFor(m => m.ScreeningLevelVersionName).Class("form-control").Readonly()
+            @Html.HiddenFor(m => m.ScreeningLevelVersionId)
+        </div>
+    </div>
+}

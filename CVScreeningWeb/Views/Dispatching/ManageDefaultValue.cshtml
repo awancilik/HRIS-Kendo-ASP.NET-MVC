@@ -1,0 +1,115 @@
+﻿@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Dispatching.MatrixViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Dispatching.DefaultValue;
+    ViewBag.IsKendoEnabled = true;
+}
+
+<div class="form-horizontal">
+    @Html.EditorFor(m => m.ColumnFilter)
+    @Html.EditorFor(m => m.RowFilter)
+    <div class="form-group" style="text-align: right">
+        <button id="filterButton" class="btn btn-default">@Dispatching.Filter</button>
+    </div>
+    <div class="form-group">
+        <div id="gridMatrix"></div>
+        <script>
+            function buildDataSource() {
+                var rowFilter = $('#RowFilter_SelectedItems').data('kendoMultiSelect');
+                var crudServiceBaseUrl = "/Dispatching/",
+                    dataSource = new kendo.data.DataSource({
+                        type: "aspnetmvc-ajax",
+                        transport: {
+                            read: {
+                                url: crudServiceBaseUrl + "/DefaultMatrix_Read",
+                                dataType: "json",
+                                data: function() {
+                                    return {
+                                        rowIds: rowFilter.value()
+                                    };
+                                }
+                            },
+                            update: {
+                                url: crudServiceBaseUrl + "/DefaultMatrix_Update",
+                                type: "POST",
+                                dataType: "json"
+                            },
+                            parameterMap: function(options, operation) {
+                                if (operation !== "read" && options.models) {
+                                    return { models: kendo.stringify(options.models) };
+                                }
+                            }
+                        },
+                        batch: true,
+                        pageSize: 25,
+                        schema: {
+                            model: {
+                                id: "RowId",
+                                fields: {
+                                    @{
+                                        var matrix = Model.Matrix;
+                                        foreach (var currentColumn in matrix.ToArray()[0]["Attributes"].Split('|'))
+                                        {
+                                            if (!(currentColumn == null || currentColumn.ToString().Equals(string.Empty)))
+                                            {
+                                                @Html.Raw(string.Format("{0} : {1} type: {3}number{3} {2},\n",
+                                                    currentColumn, '\u007b', '\u007D', '\u0022'))
+                                            }
+                                        }
+                                    }
+                                RowName: { editable: false }
+                            }
+                        }
+                    }
+                });
+
+                return dataSource;
+            }
+
+            function instatiateGridView(passingDataSource) {
+                $("#gridMatrix").kendoGrid({
+                    dataSource: passingDataSource,
+                    navigatable: true,
+                    pageable: true,
+                    height: 550,
+                    toolbar: ["save", "cancel"],
+                    columns: [
+                        { field: "RowName", title: "Type Name" },
+                        // define columns programmatically
+                        @{
+                            matrix = Model.Matrix;
+                            for (int index = 0, len = matrix.ToArray()[0]["Attributes"].Split('|').Length; index < len; index++)
+                            {
+                                var currentAttribute = matrix.ToArray()[0]["Attributes"].Split('|')[index];
+                                var currentColumnName = matrix.ToArray()[0]["ColumnNames"].Split('|')[index];
+                                if (!(currentAttribute == null || currentAttribute.ToString().Equals(string.Empty)))
+                                {
+                                    @Html.Raw(string.Format("{0} field: {2}{3}{2}, title: {2}{4}{2} {1}{5}\n",
+                                        '\u007b', '\u007D', '\u0022', currentAttribute, currentColumnName,
+                                        index < len - 2 ? "," : string.Empty))
+                                }
+                            }
+                        }
+                    ],
+                    editable: {
+                        update: true
+                    }
+                });
+            }
+
+            $(document).ready(function() {
+                var dataSource = buildDataSource();
+                instatiateGridView(dataSource);
+                filterMatrixDataGrid(dataSource);
+            });
+
+        </script>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+    <script type="text/javascript" src="~/Scripts/theme/filterMatrixDataGrid.js"></script>
+}

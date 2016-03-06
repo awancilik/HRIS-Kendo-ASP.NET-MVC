@@ -1,0 +1,58 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Screening.ScreeningFormViewModel
+
+@{
+    ViewBag.Title = Common.SubmitTitle + " " + Screening.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+@*enctype="multipart/form-data" is to enable file upload*@
+
+@using (Html.BeginForm("Create", "Screening", FormMethod.Post, new {@class = "form-horizontal", enctype = "multipart/form-data"}))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+        </div>
+        @Html.EditorFor(m => m.ScreeningLevelVersion)
+        
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Comments).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Comments).Class("form-control")
+            </div>
+        </div>
+        @Html.HiddenFor(m => m.PreviousPage)
+        @Html.EditorFor(m => m.CVFile)
+        @Html.EditorFor(m => m.AttachmentFiles)
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @if (String.IsNullOrEmpty(Model.PreviousPage))
+                {
+                    @Html.ActionLink(Common.Cancel, "Index", "Screening", null, new { Class = "btn  btn-default" })
+                }
+                else
+                {
+                    <a class="btn  btn-default" href="@Model.PreviousPage">@Common.Cancel</a>
+                }            
+
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

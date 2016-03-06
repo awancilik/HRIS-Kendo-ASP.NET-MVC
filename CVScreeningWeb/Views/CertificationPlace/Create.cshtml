@@ -1,0 +1,53 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.CertificationPlace.CertificationPlaceFormViewModel
+
+@{
+    ViewBag.Title = Common.SubmitTitle + " "  + CertificationPlace.Object; 
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Create", "CertificationPlace", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.HiddenFor(m => m.Id)
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Name)
+            </div>
+        </div>
+        @Html.EditorFor(m => m.AddressViewModel)
+        @Html.EditorFor(m => m.ProfessionalQualification)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Description).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Description).Class("form-control").Value(Model.Description)
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+           <div class=@CSSHelper.BUTTON_CONTROL_CLASS>
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @Html.ActionLink(Common.Cancel, "Index", "CertificationPlace", null, new { Class = "btn  btn-default" })
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style scoped>
+    .k-readonly {
+        color: gray;
+    }
+</style>

@@ -1,0 +1,46 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Screening.ScreeningFormViewModel
+
+@{
+    ViewBag.Title = Common.DetailTitle + " " + Screening.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+<div class="form-horizontal">
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control").Readonly()
+            </div>
+        </div>
+        @Html.DisplayFor(m => m.ScreeningLevelVersion)
+        @Html.DisplayFor(m => m.Comments)
+        @Html.DisplayFor(m => m.CV)
+        @Html.DisplayFor(m => m.Attachments)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.AdditionnalRemarks).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.AdditionnalRemarks).Class("form-control").Readonly()
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @if (String.IsNullOrEmpty(Model.PreviousPage))
+                {
+                    @Html.ActionLink(Common.Ok, "Index", "Screening", null, new { Class = "btn  btn-default" })
+                }
+                else
+                {
+                    <a class="btn  btn-default" href="@Model.PreviousPage">@Common.Ok</a>
+                }      
+            </div>
+        </div>
+    </fieldset>
+</div>

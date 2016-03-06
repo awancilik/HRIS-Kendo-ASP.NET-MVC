@@ -1,0 +1,431 @@
+﻿.text-area-atomiccheck {
+    height: 160px !important;
+}
+
+
+/* Override Kendo UI grid view */
+.k-grid-content {
+    min-height: 381px;
+    font-size: 12px !important;
+}
+
+/* Override Kendo UI to be able to add border in a grid row (used for atomic check rejected ...)*/
+.k-grid table {
+    border-collapse: collapse !important;
+}
+
+/* Override Kendo UI header*/
+
+.k-grid-header .k-header > .k-link { font-size: 13px !important; }
+
+th.k-header { text-align: center !important; }
+
+
+/* Action menu present in grid view*/
+
+.action-dropdown {
+    position: relative !important;
+    top: 35px !important;
+    left: -174px !important;
+}
+
+/* Dashboard tab */
+
+.dashboard-tab {
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.nav-tabs > li.active > a { font-weight: bold !important; }
+
+
+/* Bootstrap dropdown menu content */
+
+.dropdown-menu-content { font-size: 13px !important; }
+
+/* Bootstrap submenu */
+
+.dropdown-submenu { position: relative; }
+
+.dropdown-submenu > .dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-top: -6px;
+    margin-left: -1px;
+    -webkit-border-radius: 0 6px 6px 6px;
+    -moz-border-radius: 0 6px 6px 6px;
+    border-radius: 0 6px 6px 6px;
+}
+
+.dropdown-submenu:hover > .dropdown-menu { display: block; }
+
+.dropdown-submenu > a:after {
+    display: block;
+    content: " ";
+    float: right;
+    width: 0;
+    height: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 5px 0 5px 5px;
+    border-left-color: #cccccc;
+    margin-top: 5px;
+    margin-right: -10px;
+}
+
+.dropdown-submenu:hover > a:after { border-left-color: #ffffff; }
+
+.dropdown-submenu.pull-left { float: none; }
+
+.dropdown-submenu.pull-left > .dropdown-menu {
+    left: -100%;
+    margin-left: 10px;
+    -webkit-border-radius: 6px 0 6px 6px;
+    -moz-border-radius: 6px 0 6px 6px;
+    border-radius: 6px 0 6px 6px;
+}
+
+
+
+/* Message success returned to the user */
+
+.message-success {
+    text-align: center;
+    color: #238E23;
+    font-weight: bold;
+}
+
+
+/* Message success returned to the user */
+
+.message-error {
+    text-align: center;
+    color: red;
+    font-weight: bold;
+}
+
+/* Message success returned to the user */
+
+.validation-summary-errors {
+
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+
+
+
+/* Required */
+
+.required { color: red; }
+
+
+/* Center */
+
+.center { text-align: center; }
+
+/* Title form*/
+
+.form-subtitle {
+    font-size: 16px !important;
+    text-align: left !important;
+    font-weight: bold !important;
+}
+
+/* Report Table CSS */
+
+/* Report Table CSS for PDF Generation */
+
+.pdf-page-breaker {
+    display: block;
+    clear: both;
+    page-break-after: always;
+}
+
+.tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+}
+
+.tg td {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+}
+
+.tg th {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: normal;
+    padding: 10px 20px;
+    border-style: solid;
+    border-width: 1px;
+    overflow: hidden;
+    word-break: normal;
+}
+
+.tg .tg-uukg {
+    background-color: #d9d9d9;
+    text-align: center;
+}
+
+.tg .report-label { background-color: #daeef3; }
+
+.tg .tg-tbm7 {
+    font-weight: bold;
+    background-color: #d9d9d9;
+    text-align: center;
+}
+
+/*Background color to display in report pdf*/
+
+
+.tg .NEW {
+    background-color: #adff2f;
+    text-align: center;
+}
+
+.tg .DONE_DISCREPANCY {
+    background-color: #ffc000;
+    text-align: center;
+}
+
+.tg .DONE_OK {
+    background-color: #92d050;
+    text-align: center;
+}
+
+.tg .DONE_IMPOSSIBLE {
+    background-color: #b6dde8;
+    text-align: center;
+}
+
+.tg .DONE_KO {
+    background-color: #ff0000;
+    text-align: center;
+}
+
+.tg .ON_PROCCESS_FORWARDED {
+    background-color: #FF6699;
+    text-align: center;
+}
+
+.tg .ONGOING {
+    background-color: #00B0F0;
+    text-align: center;
+}
+
+.tg .NOT_APPLICABLE {
+    background-color: grey;
+    text-align: center;
+}
+
+.tg .PENDING_CONFIRMATION {
+    background-color: khaki;
+    text-align: center;
+}
+
+.cover-header{
+    font-family: Arial, sans-serif !important;
+    font-weight:bold !important;
+}
+
+.cover-reference{
+    font-family: Arial, sans-serif !important;
+}
+
+
+/*Background color to display in grid view of atomic checks*/
+
+.grid_status {
+    color: black;
+    text-transform: uppercase;
+    font-size: 13px;
+    text-align: center;
+    font-weight: 400;
+/*    border-width: 1px !important;
+    border-color: white !important;*/
+}
+
+/* Screening status */
+
+td.screening_status_new { background-color: #99cce3; }
+
+td.screening_status_open { background-color: #fcb1ae; }
+
+td.screening_status_validated { background-color: #98d7ad; }
+
+td.screening_status_submitted { background-color: khaki; }
+
+td.screening_status_updating { background-color: #FF6699; }
+
+td.screening_status_deactivated { background-color: #f3f3f3; }
+
+/* Report status */
+td.report_status_submitted  { background-color: #98d7ad; }
+
+td.report_status_not_submitted  { background-color: khaki; }
+
+td.report_type_automatic  { background-color: #99cce3; }
+
+td.report_type_manual  { background-color: #00b0f0; }
+
+/* Qualifier status */
+
+td.qualifier_status_wrongly_qualified { background-color: #fcb1ae; }
+
+td.qualifier_status_to_qualify { background-color: khaki; }
+
+/* Atomic check status */
+
+td.atomiccheck_status_new { background-color: #99cce3; }
+
+td.atomiccheck_status_ongoing { background-color: #f3f3f3; }
+
+td.atomiccheck_status_discrepancy { background-color: #fcf8e3; }
+
+td.atomiccheck_status_validated { background-color: #98d7ad; }
+
+td.atomiccheck_status_cannot_be_verified { background-color: #99cce3; }
+
+td.atomiccheck_status_invalid { background-color: #fcb1ae; }
+
+td.atomiccheck_status_forwarded { background-color: #FF6699; }
+
+td.atomiccheck_status_not_applicable { background-color: khaki; }
+
+td.atomiccheck_status_pending_confirmation {
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+
+td.atomiccheck_status_wrongly_qualified { background-color: #f2dede; }
+
+/* Atomic check validation status */
+
+td.atomiccheck_status_not_submitted { background-color: #99cce3; }
+
+td.atomiccheck_status_submitted { background-color: #b0c4de; }
+
+td.atomiccheck_status_validated_qc { background-color: #98d7ad; }
+
+td.atomiccheck_status_rejected_qc { background-color: #fcb1ae; }
+
+td.atomiccheck_status_deactivated  { background-color: #f3f3f3; }
+
+td.atomiccheck_status_disabled  { background-color: #f3f3f3; }
+
+/*Modify style for kendo matrix grid*/
+
+td.DEF {
+     background-color: #98d7ad;
+     border-color: #ffffff
+}
+
+td.IMP {
+     background-color: #fcb1ae;
+     border-color: #ffffff
+}
+
+
+/* Atomic check rejected */
+
+tr.atomic_check_rejected {
+    border: 0.15em solid rgb(236, 117, 117) !important;
+    background-color: antiquewhite;
+    border-collapse: collapse !important;    
+}
+
+tr.atomic_check_wronglyqualified {
+    border: 0.15em solid rgb(236, 117, 117) !important;
+    background-color: antiquewhite;
+    border-collapse: collapse !important;    
+}
+
+tr.atomic_check_rejected > td.grid_status {
+    border-width: 0 !important;
+}
+
+.right {
+    float: right;
+}
+
+span.button_text {
+    font-family: 'Open Sans',sans-serif;
+    font-size: 15px;
+    padding-left: 10px;
+}
+
+a.home {
+    margin-top: 50px !important; 
+    margin-bottom: 20px; 
+    background-color: #B92839 !important;
+    color: #ffffff !important;
+}
+
+div.notification_box {
+    font-size: 12px;
+    color: #B92839;
+    background-color: #fafafa;
+    border: 1px solid #eff2f7;
+    padding: 6px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+}
+
+.notification_box a {
+    color: #B92839 !important;
+}
+
+div.auto_scroll {
+    overflow-y: auto; 
+}
+
+.fade_in {
+    animation: fadein 5s;
+    -moz-animation: fadein 5s; /* Firefox */
+    -webkit-animation: fadein 5s; /* Safari and Chrome */
+    -o-animation: fadein 5s; /* Opera */
+}
+
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}

@@ -1,0 +1,116 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Common.LocationViewModel
+
+@{
+    var countryId = Model.CountryId;
+    var provinceId = Model.ProvinceId;
+    var cityId = Model.CityId;
+    var districtId = Model.DistrictId;
+    var subDistrictId = Model.SubDistrictId;
+
+    <div class="form-group">
+
+        @Html.Bootstrap().Label(Common.Province).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-md-7">
+            @(Html.Kendo().DropDownListFor(m => m.ProvinceId)
+                  .HtmlAttributes(new { @class = "form-control" })
+                  .OptionLabel("Select province...")
+                  .DataTextField("ProvinceName")
+                  .DataValueField("ProvinceId")
+                  .DataSource(source => source.Read(read => read.Action("GetProvince", "Common")))
+                  .Value(provinceId)
+            )
+            @Html.ValidationMessageFor(model => model.ProvinceId)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Bootstrap().Label(Common.City).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-md-7">
+            @(Html.Kendo().DropDownListFor(m => m.CityId)
+                .HtmlAttributes(new { @class = "form-control" })
+              .OptionLabel("Select city...")
+              .DataTextField("ChildrenName")
+              .DataValueField("ChildrenId")
+              .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterCity"))
+              .ServerFiltering(true))
+                .Value(cityId)
+                .Enable(false)
+                .AutoBind(false)
+              .CascadeFrom("AddressViewModel_LocationViewModel_ProvinceId")
+            )
+            @Html.ValidationMessageFor(model => model.CityId)
+            <script>
+                function filterCity() {
+                    return {
+                        parentId: $("#AddressViewModel_LocationViewModel_ProvinceId").val(),
+                        level: 3
+                    };
+                }
+            </script>
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.Bootstrap().Label(Common.District).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-md-7">
+            @(Html.Kendo().DropDownListFor(m => m.DistrictId)
+                .HtmlAttributes(new { @class = "form-control" })
+              .OptionLabel("Select district...")
+              .DataTextField("ChildrenName")
+              .DataValueField("ChildrenId")
+              .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterDistrict"))
+                  .ServerFiltering(true))
+                .Value(districtId)
+                .Enable(false)
+                .AutoBind(false)
+                              .CascadeFrom("AddressViewModel_LocationViewModel_CityId")
+            )
+            @Html.ValidationMessageFor(model => model.DistrictId)
+
+
+            <script>
+                function filterDistrict() {
+                    return {
+                        parentId: $("#AddressViewModel_LocationViewModel_CityId").val(),
+                        level: 4
+                    };
+                }
+            </script>
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.Bootstrap().Label(Common.SubDistrict).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-md-7">
+            @(Html.Kendo().DropDownListFor(m => m.SubDistrictId)
+                  .HtmlAttributes(new { @class = "form-control" })
+                  .OptionLabel("Select sub district...")
+                  .DataTextField("ChildrenName")
+                  .DataValueField("ChildrenId")
+                  .Value(subDistrictId)
+                  .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterSubDistrict"))
+                      .ServerFiltering(true))
+                  .Enable(false)
+                  .CascadeFrom("AddressViewModel_LocationViewModel_DistrictId")
+                  )
+            @Html.ValidationMessageFor(model => model.SubDistrictId)
+
+            <script>
+                function filterSubDistrict() {
+                    return {
+                        parentId: $("#AddressViewModel_LocationViewModel_DistrictId").val(),
+                        level: 5
+                    };
+                }
+            </script>
+        </div>
+    </div>
+    
+    <script>
+    $.validator.setDefaults({
+        ignore: ""
+    });
+</script>
+}

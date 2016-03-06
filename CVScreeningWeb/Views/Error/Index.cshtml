@@ -1,0 +1,15 @@
+﻿@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Error.ErrorIndexViewModel
+
+<div class="container ">
+    <section class="error-wrapper text-center">
+        <div class="error-desk" style="background: none;">
+            <img src="/Images/500.png" alt="">
+            <br />
+            <h2>Error!!!</h2>
+            <h3>@Model.ErrorMessage</h3>
+            <p>@Error.ContactAdmin</p>
+            <a href="/" class="back-btn" style="color: #B92839;"><i class="fa fa-home"></i> @Error.BackToHome</a>
+        </div>
+    </section>
+</div>

@@ -1,0 +1,55 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.AtomicCheck.AtomicCheckManageViewModel
+    
+
+
+<div class="btn-group dropup">
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-gear"></i>
+    </button>
+    <ul class="action-dropdown dropdown-menu dropdown-menu-content" role="menu">
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Production Manager")
+            || Roles.IsUserInRole("Quality Control") || Roles.IsUserInRole("Account Manager"))
+        {
+            if (Model.CanBeAssigned)
+            {
+                <li>
+                    <a href="#" class="assign-atomic-check" data-id="@(Model.Id)" data-screeningid="@(Model.ScreeningId)">@Screening.AssignedTo</a>
+                </li>
+            }
+        }
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Screener")
+            || Roles.IsUserInRole("Quality Control") || Roles.IsUserInRole("Account Manager"))
+        {
+            if (Model.CanBeProcessed)
+            {
+                <li>@Html.ActionLink(AtomicCheck.Process, "Edit", "AtomicCheck", new { id = @Model.Id }, null)</li>
+            }
+        }
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Quality Control")
+            || Roles.IsUserInRole("Account Manager"))
+        {
+            if (Model.CanBeValidated)
+            {
+                <li>@Html.ActionLink(AtomicCheck.Validate, "Edit", "AtomicCheck", new { id = @Model.Id }, null)</li>
+            }
+            if (Model.CanBeRejected)
+            {
+                <li>@Html.ActionLink(AtomicCheck.Reject, "Edit", "AtomicCheck", new { id = @Model.Id }, null)</li>
+            }
+        }
+
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Screener") 
+            || Roles.IsUserInRole("Qualifier") || Roles.IsUserInRole("Quality Control") 
+            || Roles.IsUserInRole("Account Manager"))
+        {
+            <li>@Html.ActionLink(Discussion.AtomicCheckInternalDiscussion, "Index", "Discussion", new { id = @Model.InternalDiscussionId }, null)</li>
+        }
+        @if (Roles.IsUserInRole("Qualifier"))
+        {
+            <li>@Html.ActionLink(Common.Detail, "Detail", "AtomicCheck", new { id = @Model.Id }, null)</li>
+        }
+
+    </ul>
+</div>

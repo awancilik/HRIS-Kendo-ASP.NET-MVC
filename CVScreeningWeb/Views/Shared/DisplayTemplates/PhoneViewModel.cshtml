@@ -1,0 +1,11 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Contact.PhoneViewModel
+    
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().TextBoxFor(m => m.FullNumber).Class("form-control").Readonly()
+        </div>
+    </div>
+}

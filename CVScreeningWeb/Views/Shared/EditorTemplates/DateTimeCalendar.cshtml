@@ -1,0 +1,15 @@
+﻿@using CVScreeningWeb.Helpers
+@using Kendo.Mvc.UI
+@model DateTime
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-md-3">
+            @(Html.Kendo().DatePickerFor(m => m)
+                          .Format("dd/MM/yyyy")
+            )
+            @Html.ValidationMessageFor(m => m)
+        </div>
+    </div>
+}

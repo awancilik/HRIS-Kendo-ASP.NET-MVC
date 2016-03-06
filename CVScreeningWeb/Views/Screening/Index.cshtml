@@ -1,0 +1,107 @@
+﻿@using CVScreeningCore.Models
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@using Screening = CVScreeningWeb.Resources.Screening
+@model IEnumerable<CVScreeningWeb.ViewModels.Screening.ScreeningManageViewModel>
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Screening.Object;
+    ViewBag.IsKendoEnabled = true;
+    
+    // Page size settings and numbering
+    const int initPageSize = 25;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) 
+        ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) 
+        ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+}
+
+@(Html.Kendo().Grid(Model)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right">
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(20);
+          columns.Bound(e => e.Name).Width(150);
+          columns.Bound(e => e.ScreeningLevel).Width(75);
+          columns.Bound(e => e.Deadline).Width(40);
+          columns.Bound(e => e.DayPending).Width(40);
+          columns.Bound(e => e.Status).Width(75);
+          columns.Bound(e => e.Id).Template(@<div>@Html.Action("ActionMenu", "Screening", @item)</div>).Width(30).Title("");
+      })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .Scrollable(scr => scr.Height("auto"))
+      .Resizable(resize => resize.Columns(true))                          
+      .DataSource(dataSource => dataSource
+          .Server()
+                                            .Sort(sort => sort.Add(e => e.Status).Descending())
+                                            .Sort(sort => sort.Add(e => e.DayPendingInt).Ascending())
+                                            .Sort(sort => sort.Add(e => e.Name))
+                                            .Model(model => model.Id(p => p.Id))
+      ))
+
+<br />
+
+
+@if (Roles.IsUserInRole(webpages_Roles.kAdministratorRole) || Roles.IsUserInRole(webpages_Roles.kQualifierRole) 
+    || Roles.IsUserInRole(webpages_Roles.kClientRole))
+    {
+        @Html.ActionLink(Screening.CreateScreening, "Create", "Screening", null,
+            new {Class = "btn  btn-default"})
+    }
+
+@if (Roles.IsUserInRole(webpages_Roles.kAdministratorRole) || Roles.IsUserInRole(webpages_Roles.kProductionManagerRole)
+     || Roles.IsUserInRole(webpages_Roles.kAccountManagerRole) || Roles.IsUserInRole(webpages_Roles.kQualityControlRole))
+{
+    @Html.ActionLink(Screening.DispatchAtomicChecks, "DispatchAtomicChecks", "Screening", null,
+        new {Class = "btn  btn-default"})
+}
+
+<div class="modal fade in" id="assign-modal">
+    <div id="assign-modal-container"></div>
+</div>
+
+<script>
+
+    $('.assign-screening').click(function () {
+        var url = "/Screening/AssignedTo"; // the url to the controller
+        var screeningId = $(this).attr('data-id'); // Atomic check Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + screeningId, function (data) {
+            $('#assign-modal-container').html(data);
+            $('#assign-modal').modal('show');
+        });
+    });
+
+    $(document).ready(function () {
+
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isScreeningStatus(value)) {
+                var myclass = "screening_status_" + value.toLowerCase().replace(/ /g, "_"); 
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+        $('td:nth-last-child(2)').each(fillStatusCell);
+    });
+
+</script>

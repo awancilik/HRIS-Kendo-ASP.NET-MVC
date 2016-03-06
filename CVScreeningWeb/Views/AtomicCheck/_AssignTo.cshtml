@@ -1,0 +1,101 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.AtomicCheck.AtomicCheckAssignToViewModel
+
+<script src="/Scripts/kendo/jquery.min.js"></script>
+<script src="/Scripts/kendo/kendo.web.min.js"></script>
+<script src="/Scripts/kendo/kendo.aspnetmvc.min.js"></script>
+<script src="/Content/theme/bs3/js/bootstrap.min.js"></script>
+<script src="/Scripts/theme/scripts.js"></script>
+<script src="/Scripts/jquery.unobtrusive-ajax.js"></script>
+
+<div class="modal-dialog">
+    <div class="modal-content" id="assign-to-form">
+        <div class="modal-header">
+            <h4 class="modal-title">@Screening.AssignedTo</h4>
+        </div>
+
+
+        <div class="modal-body">
+            @using (Ajax.BeginForm("AssignedTo", "AtomicCheck", FormMethod.Post,
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "assign-to-form",
+                        OnBegin = "onBegin",
+                        OnComplete = "onComplete",                            
+                        OnSuccess = "onSuccessAssignedTo",
+                    }))
+            {
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                
+                @Html.HiddenFor(m => m.AtomicCheckId)
+                @Html.HiddenFor(m => m.ScreeningId)
+                @Html.HiddenFor(m => m.UserProfileId)
+                @Html.HiddenFor(m => m.PreviousPage)
+                @(Html.Kendo().AutoComplete()
+                          .Name("screenerName")
+                          .DataTextField("screenerName")
+                          .HtmlAttributes(new {style = "width:300px"})
+                          .Filter("startswith")
+                          .MinLength(1)
+                          .Events(events => events.Select("ScreenerSelect"))
+                          .DataSource(source =>
+                                  source.Read(read => read.Action("GetScreenerJSON", "Screening", new { Id = Model.AtomicCheckId })
+                                  .Data("onAdditionalData")
+                                  ))
+                )
+
+
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+
+            }
+            
+            <div id="divLoading" style="text-align: center;"></div>
+
+        </div>
+
+        <div class="modal-footer">
+        </div>
+
+    </div>
+</div>
+
+
+
+<script>
+    
+    function onBegin() {
+        $("#divLoading").html('<image src="/Content/loading.gif" alt="Loading, please wait" />');
+    }
+    function onComplete() {
+        $("#divLoading").html("");
+    }
+
+    // Function call when assignTo action is successfully executed. Redirect to screening atomic check page
+    function onSuccessAssignedTo(data, status, xhr) {
+        var returnUrl = data['redirectTo'];
+        if (returnUrl) {
+            window.location.href = returnUrl;
+        }
+    }
+
+    function onAdditionalData() {
+        return {
+            text: $("#ScreenerId").val()
+        };
+    }
+
+    // Event function called when a screener is select, set screener id for post method
+    function ScreenerSelect(e) {
+        var dataItem = this.dataItem(e.item.index());
+        $("#UserProfileId").val(dataItem.screenerId);
+    }
+
+    // Bind modal to event when the window is closed, page is reloaded
+    $('#assign-modal').on('hidden.bs.modal', function () {
+        document.location.reload();
+    });
+
+</script>

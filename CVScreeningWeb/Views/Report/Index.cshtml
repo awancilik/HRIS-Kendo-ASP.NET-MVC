@@ -1,0 +1,24 @@
+﻿@model CVScreeningWeb.ViewModels.Report.ReportViewModel
+
+@{
+    Layout = "~/Views/Shared/_LayoutPDF.cshtml";
+    ViewBag.Title = Model.Title;
+}
+
+@Html.Partial("_summaryOfPreemploymentScreening", @Model.Summary)
+
+<div class="pdf-page-breaker"></div>
+
+@foreach (var typeOfCheckReport in Model.TypeOfCheckReports)
+{
+    <div class="pdf-page-breaker"></div>
+    @Html.Partial("_typeOfCheckReport", typeOfCheckReport)
+}
+
+<div class="pdf-page-breaker"></div>
+
+@foreach (var appendix in Model.Appendices)
+{
+    <div class="pdf-page-breaker"></div>
+    @Html.Partial("_appendixReport", appendix)
+}

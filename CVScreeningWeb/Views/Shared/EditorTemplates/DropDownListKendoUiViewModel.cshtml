@@ -1,0 +1,40 @@
+﻿@using CVScreeningWeb.Helpers
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Shared.DropDownListKendoUiViewModel
+
+<div class="form-group">
+    @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+    <div class="col-md-7">
+
+        @{
+
+
+            if (Model.ChangeEvent.IsEmpty()){
+                @(Html.Kendo().DropDownListFor(m => m.SelectedItem)
+        .HtmlAttributes(new { @class = "form-control" })
+        .OptionLabel(Model.Placeholder)
+        .DataTextField(Model.DataTextField)
+        .DataValueField(Model.DataValueField)
+        .DataSource(source => source.Read(read => read.Action(Model.Action, Model.Controller)))
+        .Value(Model.DefaultValue)
+                )
+            }
+            else{
+            @(Html.Kendo().DropDownListFor(m => m.SelectedItem)
+            .HtmlAttributes(new { @class = "form-control" })
+            .OptionLabel(Model.Placeholder)
+            .DataTextField(Model.DataTextField)
+            .DataValueField(Model.DataValueField)
+            .DataSource(source => source.Read(read => read.Action(Model.Action, Model.Controller)))
+            .Value(Model.DefaultValue)
+            .Events(evt =>
+                    {
+                        evt.Change(Model.ChangeEvent);
+                    })
+            )
+    }
+
+    @Html.ValidationMessageFor(model => model.SelectedItem)
+                    }
+</div>
+</div>

@@ -1,0 +1,55 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Contract.ContractFormViewModel
+
+@{
+    ViewBag.Title = Common.SubmitTitle + " " + ClientCompany.Contract;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("CreateContract", "ClientCompany", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.ClientCompanyId)
+    @Html.HiddenFor(m => m.IsEnabled)
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.ReferenceNumber).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.ReferenceNumber).Class("form-control")
+                @Html.ValidationMessageFor(m => m.ReferenceNumber)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Description).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Description).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Year).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Year).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Year)
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class=@CSSHelper.BUTTON_CONTROL_CLASS>
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @Html.ActionLink(Common.Cancel, "ManageContract", "ClientCompany",
+                    new { id = Model.ClientCompanyId }, new { Class = "btn  btn-default" })
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

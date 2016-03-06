@@ -1,0 +1,125 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Screening.ScreeningSearchViewModel
+
+@{
+    ViewBag.Title = Screening.SearchScreening;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 25;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+}
+
+<div class="col-md-10">
+    @using (Html.BeginForm("Index", "Search", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            @Html.Bootstrap().Label(Screening.ScreeningName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBox("Name").Class("form-control")
+            </div>
+        </div>
+        if (!Roles.IsUserInRole("Client"))
+        {
+            @(Html.EditorFor(m => m.Client))
+        }
+        <div class="form-group">
+            @Html.Bootstrap().Label(Screening.DeliveryStartingDate).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class="col-md-3">
+                @(Html.Kendo().DatePicker().Name("StartingDate").Format("dd/MM/yyyy").HtmlAttributes(new { id = "StartingDate" }))
+            </div>
+            @Html.Bootstrap().Label(Screening.DeliveryEndingDate).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class="col-md-3">
+                @(Html.Kendo().DatePicker().Name("EndingDate").Format("dd/MM/yyyy").HtmlAttributes(new{ id = "EndingDate"}))
+            </div>
+        </div>
+        
+        @(Html.EditorFor(m => m.Status))
+
+        
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text(Common.Search)
+                @Html.ActionLink(Common.Cancel, "Index", "Search", null, new { Class = "btn  btn-default" })
+            </div>
+        </div>        
+
+    }    
+</div>
+
+<div class="col-md-12">
+    @(Html.Kendo().Grid(Model.ScreeningManageList)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right">
+            @{ number = number + 1; }
+            @number
+        </div>)
+              .Title(Common.Id).Width(20);
+          columns.Bound(e => e.Name).Width(130);
+          columns.Bound(e => e.ScreeningLevel).Width(75);
+          columns.Bound(e => e.Deadline).Width(50);
+          columns.Bound(e => e.DeliveryDate).Width(60);
+          columns.Bound(e => e.Status).Width(75);
+          columns.Bound(e => e.Id).Template(@<div>@Html.Action("ActionMenu", "Screening", @item)</div>).Width(30).Title("");
+      })
+                                  .Pageable()
+                                  .Sortable()
+                                  .Filterable()
+                                  .Scrollable(scr => scr.Height("auto"))
+                                  .Resizable(resize => resize.Columns(true))
+                                  .DataSource(dataSource => dataSource
+                                      .Server()
+                                      .Sort(sort => sort.Add(e => e.Name))
+                                      .Model(model => model.Id(p => p.Id))
+                                  ))    
+</div>
+
+<div class="modal fade in" id="assign-modal">
+    <div id="assign-modal-container"></div>
+</div>
+
+<script>
+
+    $('.assign-screening').click(function () {
+        var url = "/Screening/AssignedTo"; // the url to the controller
+        var screeningId = $(this).attr('data-id'); // Atomic check Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + screeningId, function (data) {
+            $('#assign-modal-container').html(data);
+            $('#assign-modal').modal('show');
+        });
+    });
+
+    $(document).ready(function () {
+
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isScreeningStatus(value)) {
+                var myclass = "screening_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+        $('td:nth-last-child(2)').each(fillStatusCell);
+    });
+
+</script>

@@ -1,0 +1,19 @@
+﻿@using CVScreeningWeb.Helpers
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Shared.MultiSelectViewModel
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @(Html.Kendo().MultiSelectFor(m => m.SelectedItems)
+                  .DataTextField(Model.DataTextField)
+                  .DataValueField(Model.DataValueField)
+                  .Placeholder(Model.Placeholder)
+                  .AutoBind(false)
+                  .Filter("contains")
+                  .DataSource(source => { source.Read(read => { read.Action(Model.Action, Model.Controller); }); })
+            )
+        </div>
+    </div>
+}

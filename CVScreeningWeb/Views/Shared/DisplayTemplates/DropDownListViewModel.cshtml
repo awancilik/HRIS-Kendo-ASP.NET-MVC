@@ -1,0 +1,12 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Shared.DropDownListViewModel
+
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().DropDownListFor(m => m.PostData, Model.Sources).Class("form-control").Disabled()
+        </div>
+    </div>
+}

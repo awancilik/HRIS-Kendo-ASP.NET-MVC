@@ -1,0 +1,360 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{45A46E67-589E-414A-AEB5-120AB7C29CDF}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CVScreeningCore</RootNamespace>
+    <AssemblyName>CVScreeningCore</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Deploy-TST|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Deploy-TST\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug.TST|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\Debug.TST\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release.TST|AnyCPU'">
+    <OutputPath>bin\Release.TST\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <Content Include="NLog.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="NLog.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Models\CVScreeningEFModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CVScreeningEFModel1.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Error\ErrorCode.cs" />
+    <Compile Include="Error\ResourceErrorFactory.cs" />
+    <Compile Include="Error\ErrorResource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ErrorResource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Error\IErrorFactory.cs" />
+    <Compile Include="Exception\ExceptionAccountNotBelongsToScreenerRole.cs" />
+    <Compile Include="Exception\ExceptionAtomicCheckAssignCategoryMismatch.cs" />
+    <Compile Include="Exception\ExceptionNotAuthorized.cs" />
+    <Compile Include="Exception\ExceptionAtomicCheckWronglyQualifiedImpossible.cs" />
+    <Compile Include="Exception\ExceptionAtomicCheckOnProcessForwardImpossible.cs" />
+    <Compile Include="Exception\ExceptionAtomicCheckNotQualified.cs" />
+    <Compile Include="Exception\ExceptionAtomicCheckNotApplicable.cs" />
+    <Compile Include="Exception\ExceptionDispatchingInvalidAtomicCheck.cs" />
+    <Compile Include="Exception\ExceptionScreeningDeactivated.cs" />
+    <Compile Include="Exception\ExceptionQualificationNotCompatible.cs" />
+    <Compile Include="Exception\ExceptionScreeningTypeNotFound.cs" />
+    <Compile Include="Languages\Abstract\BaseResourceProvider.cs" />
+    <Compile Include="Languages\Abstract\IResourceProvider.cs" />
+    <Compile Include="Languages\Concrete\DbResourceProvider.cs" />
+    <Compile Include="Languages\Concrete\XmlResourceProvider.cs" />
+    <Compile Include="Languages\Entities\ResourceEntry.cs" />
+    <Compile Include="Languages\Resource.Designer.cs" />
+    <Compile Include="Languages\Utilities\ResourceBuilder.cs" />
+    <Compile Include="Models\Address.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AtomicCheck.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateDeactivated.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateFactory.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateNotApplicable.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateDisabled.cs" />
+    <Compile Include="Models\AtomicCheckValidationState\AtomicCheckValidationStateFactory.cs" />
+    <Compile Include="Models\AtomicCheckValidationState\AtomicCheckValidationState.cs" />
+    <Compile Include="Models\AtomicCheckValidationState\AtomicCheckValidationStateNotProcessed.cs" />
+    <Compile Include="Models\AtomicCheckValidationState\AtomicCheckValidationStateProcessed.cs" />
+    <Compile Include="Models\AtomicCheckValidationState\AtomicCheckValidationStateRejected.cs" />
+    <Compile Include="Models\AtomicCheckValidationState\AtomicCheckValidationStateValidated.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateDoneDiscrepancy.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateDoneImpossible.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateWronglyQualified.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStatePendingConfirmation.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateOnProcessForwarded.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateDoneKo.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateDoneOk.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateNew.cs" />
+    <Compile Include="Models\AtomicCheckState\AtomicCheckStateOnGoing.cs" />
+    <Compile Include="Models\Attachment.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CertificationPlace.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ClientCompany.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Company.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContactInfo.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ContactPerson.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Contract.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Court.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CVScreeningEFModel1.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DefaultMatrix.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Discussion.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DispatchingSettings.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\DrivingLicenseCheckingOffice.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Faculty.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\HighSchool.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\History.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\IEntity.cs" />
+    <Compile Include="Models\ImmigrationOffice.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Location.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Message.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Notification.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\NotificationOfUser.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Partial\DispatchingSettings.cs" />
+    <Compile Include="Models\Partial\DefaultMatrixPartial.cs" />
+    <Compile Include="Models\Partial\HistoryPartial.cs" />
+    <Compile Include="Models\Partial\PermissionPartial.cs" />
+    <Compile Include="Models\Partial\PopulationOfficePartial.cs" />
+    <Compile Include="Models\Partial\ScreeningQualificationPlaceMetaPartial.cs" />
+    <Compile Include="Models\Partial\SkillMatrix.cs" />
+    <Compile Include="Models\Partial\TenantPartial.cs" />
+    <Compile Include="Models\Partial\AddressPartial.cs" />
+    <Compile Include="Models\Partial\AtomicCheckPartial.cs" />
+    <Compile Include="Models\Partial\AttachmentPartial.cs" />
+    <Compile Include="Models\Partial\CertificationPlacePartial.cs" />
+    <Compile Include="Models\Partial\ClientCompanyPartial.cs" />
+    <Compile Include="Models\Partial\CompanyPartial.cs" />
+    <Compile Include="Models\Partial\ContactInfoPartial.cs" />
+    <Compile Include="Models\Partial\ContactPersonPartial.cs" />
+    <Compile Include="Models\Partial\ContractPartial.cs" />
+    <Compile Include="Models\Partial\CourtPartial.cs" />
+    <Compile Include="Models\Partial\DiscussionPartial.cs" />
+    <Compile Include="Models\Partial\DrivingLicenseCheckingOfficePartial.cs" />
+    <Compile Include="Models\Partial\FacultyPartial.cs" />
+    <Compile Include="Models\Partial\HighSchoolPartial.cs" />
+    <Compile Include="Models\Partial\ImmigrationOfficePartial.cs" />
+    <Compile Include="Models\Partial\LocationPartial.cs" />
+    <Compile Include="Models\Partial\MessagePartial.cs" />
+    <Compile Include="Models\Partial\NotificationPartial.cs" />
+    <Compile Include="Models\Partial\NotificationOfUserPartial.cs" />
+    <Compile Include="Models\Partial\PolicePartial.cs" />
+    <Compile Include="Models\Partial\PostPartial.cs" />
+    <Compile Include="Models\Partial\ProfessionalQualificationPartial.cs" />
+    <Compile Include="Models\Partial\PublicHolidayPartial.cs" />
+    <Compile Include="Models\Partial\QualificationPlacePartial.cs" />
+    <Compile Include="Models\Partial\ScreeningPartial.cs" />
+    <Compile Include="Models\Partial\ScreeningLevelPartial.cs" />
+    <Compile Include="Models\Partial\ScreeningLevelVersionPartial.cs" />
+    <Compile Include="Models\Partial\ScreeningQualificationPartial.cs" />
+    <Compile Include="Models\Partial\ScreeningReportPartial.cs" />
+    <Compile Include="Models\Partial\TypeOfCheckScreeningLevelVersionPartial.cs" />
+    <Compile Include="Models\Partial\TypeOfCheckPartial.cs" />
+    <Compile Include="Models\Partial\TypeOfCheckMetaPartial.cs" />
+    <Compile Include="Models\Partial\UniversityPartial.cs" />
+    <Compile Include="Models\Partial\UserLeavePartial.cs" />
+    <Compile Include="Models\Partial\webpages_MembershipPartial.cs" />
+    <Compile Include="Models\Partial\webpages_OAuthMembershipPartial.cs" />
+    <Compile Include="Models\Partial\webpages_RolesPartial.cs" />
+    <Compile Include="Models\Partial\webpages_UserProfilePartial.cs" />
+    <Compile Include="Models\Permission.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Police.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PopulationOffice.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Post.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ProfessionalQualification.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PublicHoliday.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\QualificationPlace.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Screening.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreeningLevel.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreeningLevelVersion.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreeningQualification.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreeningQualificationPlaceMeta.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ScreeningReport.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\AtomicCheckState\AtomicCheckState.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningState.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateDeactivated.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateFactory.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateNew.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateOpen.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateSubmitted.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateUpdating.cs" />
+    <Compile Include="Models\ScreeningState\ScreeningStateValidated.cs" />
+    <Compile Include="Models\SkillMatrix.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Tenant.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TypeOfCheck.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TypeOfCheckMeta.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\TypeOfCheckScreeningLevelVersion.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\University.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserLeave.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_Membership.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_OAuthMembership.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_Roles.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_UserProfile.cs">
+      <DependentUpon>CVScreeningEFModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Error\ErrorResource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>ErrorResource.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>CVScreeningCore.Error</CustomToolNamespace>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Languages\Resource.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Nalysa.Common\Nalysa.Common.csproj">
+      <Project>{226fd1c1-669f-4428-aaad-cba0a9d08f0a}</Project>
+      <Name>Nalysa.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

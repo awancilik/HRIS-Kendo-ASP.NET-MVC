@@ -1,0 +1,12 @@
+﻿@using CVScreeningWeb.Helpers
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().CheckBoxFor(m => m)
+        </div>
+    </div>
+   
+   
+}

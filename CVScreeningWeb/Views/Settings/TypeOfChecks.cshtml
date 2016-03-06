@@ -1,0 +1,59 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Settings.TypeOfChecksSettings;
+    ViewBag.IsKendoEnabled = true;
+}
+
+
+@(Html.Kendo().Grid<CVScreeningWeb.ViewModels.Settings.TypeOfCheckSettingsViewModel>()
+    .Name("Grid")
+    .Columns(columns =>
+    {
+        columns.Bound(p => p.TypeOfCheckName);
+        columns.Bound(p => p.TypeOfCheckCategory);
+        columns.Bound(p => p.AverageCompletionRate);
+        columns.Bound(p => p.CompletionMinimunWorkingDays);
+    })
+    .ToolBar(toolbar =>
+    {
+        toolbar.Save();
+    })
+    .Editable(editable => editable.Mode(GridEditMode.InCell))
+    .Pageable()
+    .Navigatable()
+    .Sortable()
+    .Scrollable()
+    .DataSource(dataSource => dataSource
+        .Ajax()
+        .Batch(true)
+        .PageSize(40)
+        .ServerOperation(false)
+        .Events(events => events.Error("error_handler"))
+             .Model(model =>
+                        {
+                            model.Id(p => p.TypeOfCheckMetaId);
+                            model.Field(p => p.TypeOfCheckName).Editable(false);
+                            model.Field(p => p.TypeOfCheckCategory).Editable(false);
+                        })
+            
+        .Read("TypeOfCheckMeta_Editing_Read", "Settings")
+        .Update("TypeOfCheckMeta_Editing_Update", "Settings")
+    )
+)
+<script type="text/javascript">
+    function error_handler(e) {
+        if (e.errors) {
+            var message = "Errors:\n";
+            $.each(e.errors, function (key, value) {
+                if ('errors' in value) {
+                    $.each(value.errors, function () {
+                        message += this + "\n";
+                    });
+                }
+            });
+            alert(message);
+        }
+    }
+</script>

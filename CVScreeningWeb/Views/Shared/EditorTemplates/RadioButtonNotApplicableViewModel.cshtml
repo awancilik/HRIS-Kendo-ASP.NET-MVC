@@ -1,0 +1,41 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Shared.RadioButtonNotApplicableViewModel
+
+@{
+    string idElement = Model.Id + "_element";
+    string idYes = Model.Id + "_yes";
+    string idNotApplicable = Model.Id + "_notapplicable";
+
+    
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(model => model).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.RadioButtonFor(model => model.IsNotApplicable, false, new { id = idYes })Yes
+            @Html.RadioButtonFor(model => model.IsNotApplicable, true, new { id = idNotApplicable }) Not applicable
+        </div>
+    </div>
+   
+    <script>
+        $(document).ready(function () {
+            if ($("#@(idNotApplicable)").is(":checked")) {
+                $('#@(idElement)').hide();
+            }
+
+            // Emergency contact div 
+            $("#@(idNotApplicable)").change(function () {
+                if ($("#@(idNotApplicable)").is(":checked")) {
+                    $('#@(idElement)').hide();
+                }
+            });
+            $("#@(idYes)").change(function () {
+                if ($("#@(idYes)").is(":checked")) {
+                    $('#@(idElement)').show();
+                }
+            });
+
+        })
+
+    </script>
+   
+}
+

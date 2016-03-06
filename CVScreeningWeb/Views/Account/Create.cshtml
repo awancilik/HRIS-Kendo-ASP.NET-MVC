@@ -1,0 +1,121 @@
+﻿@using System.Net.Configuration
+@using CVScreeningWeb.Helpers
+@using Kendo.Mvc.UI
+@using MvcCheckBoxList.Model
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Account.AccountCreateViewModel
+
+@{
+    ViewBag.Title = Common.SubmitTitle + " " + Account.Object;
+    ViewBag.IsKendoEnabled = true;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Create", "Account", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <h3>Personal Information</h3>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.UserName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.UserName).Class("form-control")
+                @Html.ValidationMessageFor(m => m.UserName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.FullName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.FullName).Class("form-control")
+                @Html.ValidationMessageFor(m => m.FullName)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Password).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().PasswordFor(m => m.Password).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Password)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.ConfirmPassword).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().PasswordFor(m => m.ConfirmPassword).Class("form-control")
+                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+            </div>
+        </div>
+
+        @Html.EditorFor(m => m.AddressViewModel)
+
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Remarks).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Remarks).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Remarks)
+            </div>
+        </div>
+        <h3>Contact Information</h3>
+        @Html.EditorFor(m => m.HomePhoneNumber)
+        @Html.EditorFor(m => m.WorkPhoneNumber)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.EmergencyContactName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.EmergencyContactName).Class("form-control")
+                @Html.ValidationMessageFor(m => m.EmergencyContactName)
+            </div>
+        </div>
+        @Html.EditorFor(m => m.EmergencyWorkPhoneNumber)
+        @Html.EditorFor(m => m.EmergencyMobilePhoneNumber)
+       
+        <h3>Role Information</h3>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.SelectedRoles).Class(CSSHelper.LABEL_CONTROL_CLASS)
+
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().ListBoxFor(m => m.SelectedRoles, Model.Roles).Class("form-control")
+            </div>
+        </div>
+        <div id="screener-category">
+            @Html.EditorFor(m => m.ScreenerCategory)
+        </div>
+
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @Html.ActionLink(Common.Cancel, "Manage", "Account", null, new {Class = "btn  btn-default"})
+            </div>
+        </div>
+    </fieldset>
+}
+
+<script>
+    
+    $(document).ready(function () {
+        $('#screener-category').hide();
+    });
+
+    $(function () {
+        // Screener has role Id: 7
+        $('#SelectedRoles').change(function () {
+            if (jQuery.inArray("7", $(this).val()) != -1) {
+                $('#screener-category').show();
+            } else {
+                $('#screener-category').hide();
+            }
+        });
+    });
+</script>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<style scoped>
+    .k-readonly { color: gray; }
+</style>

@@ -1,0 +1,60 @@
+﻿
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@using Resources
+@model IEnumerable<CVScreeningWeb.ViewModels.Police.PoliceManageViewModel>
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Police.Object;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@(Html.Kendo().Grid(Model)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right" >
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(30);
+          columns.Bound(e => e.Name).Width(200);
+          columns.Bound(e => e.Address).Width(500);
+          columns.Bound(e => e.Id).Template(@<div class="btn-group dropup">
+                                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                      <i class="fa fa-gear"></i>
+                                                 </button>
+                                                 <ul class="action-dropdown dropdown-menu" role="menu">
+                                                     <li>@Html.ActionLink(Common.Detail, "Detail", "Police", new {id = @item.Id}, null)</li>
+                                                     <li>@Html.ActionLink(Common.Edit, "Edit", "Police", new {id = @item.Id}, null)</li>
+                                                     <li>@Html.ActionLink(Common.Delete, "Delete", "Police", new {id = @item.Id},
+                                                             new {confirmPrompt = Common.DeleteConfirmation})</li>
+                                                     <li>@Html.ActionLink(Common.Contact, "ManageForQualificationPlace", "Contact", new {id = @item.Id}, null)</li>
+                                                 </ul>
+                                             </div>).Title("").Width(30);
+      })
+      .Pageable()
+      .Filterable()
+      .Sortable()         
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.Id))
+      ))
+<br />
+@if (Roles.IsUserInRole(CVScreeningCore.Models.webpages_Roles.kAdministratorRole)
+     || Roles.IsUserInRole(CVScreeningCore.Models.webpages_Roles.kProductionManagerRole)
+     || Roles.IsUserInRole(CVScreeningCore.Models.webpages_Roles.kQualifierRole))
+{
+    @Html.ActionLink(Common.CreateNew, "Create", "Police", null, new {Class = "btn  btn-default"})
+}   
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

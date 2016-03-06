@@ -1,0 +1,25 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Shared.RadioButtonViewModel
+
+@{
+    <div class="form-group">
+
+        @Html.Bootstrap().LabelFor(model => model).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+        @foreach (var value in Model.Data)
+        {
+            if (value.Checked)
+            {
+                @Html.RadioButtonFor(m => m.SelectedValue, value.Id, new { @checked = "checked" }) 
+            }
+            else
+            {
+                 @Html.RadioButtonFor(m => m.SelectedValue, value.Id)
+            }
+            @Html.Bootstrap().Label(@value.Text)
+        }
+        </div>
+    </div>
+   
+}
+

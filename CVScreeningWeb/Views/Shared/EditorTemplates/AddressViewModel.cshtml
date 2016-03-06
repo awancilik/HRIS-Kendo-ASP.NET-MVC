@@ -1,0 +1,44 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Common.AddressViewModel
+
+@{
+    var className = Model.Name ?? "Address";
+    var isIndonesiaShown = Model.LocationViewModel.CountryName == "Indonesia" || Model.LocationViewModel.CountryName == "INDONESIA" ? "" : "display:none";
+    var isFullAddressShown = Model.LocationViewModel.CountryName == "Indonesia"  || Model.LocationViewModel.CountryName == "INDONESIA" || Model.LocationViewModel.CountryName == "" ? "display:none" : "";
+    
+    @Html.EditorFor(m => m.LocationViewModel, new {className = Model.Name});
+    
+    <div id="indonesia_address@(className)" style="@(isIndonesiaShown)">
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Street).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Street).Class("form-control")
+                @Html.ValidationMessageFor(m => m.Street)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.PostalCode).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.PostalCode).Class("form-control")
+                @Html.ValidationMessageFor(m => m.PostalCode)
+            </div>
+        </div> 
+    </div>
+    
+    <div id="complete_address@(className)" style="@(isFullAddressShown)" >
+        <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.FullAddress).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.Bootstrap().TextAreaFor(m => m.FullAddress).Class("form-control")
+                    @Html.ValidationMessageFor(m => m.FullAddress)
+                </div>
+            </div>
+    </div>
+    
+    <script>
+        
+
+
+    </script>
+    
+    }

@@ -1,0 +1,156 @@
+﻿@using CVScreeningCore.Models
+@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Report.ReportByScreeningViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Report.Object;
+    ViewBag.IsKendoEnabled = true;
+    
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@*if there are any server-side validation error*@
+@if (@Model.ErrorMessages!= null && @Model.ErrorMessages.Any())
+{
+    <div class="validation-summary-errors" data-valmsg-summary="true">
+        @foreach (var message in @Model.ErrorMessages)
+        {
+            <ul>
+                <li>@message</li>
+            </ul>
+        }
+    </div>
+}
+
+
+@(Html.Kendo().Grid(Model.ReportManageViewModels)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right">
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(30);
+          columns.Bound(e => e.Version).Width(80).Sortable(false);
+          columns.Bound(e => e.SubmittedDate).Width(200);
+          columns.Bound(e => e.Type).Width(100);
+          columns.Bound(e => e.Status).Width(80);
+          columns.Bound(e => e.Id).Width(210).Template(@<div class="btn-group dropup">
+                                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                      <i class="fa fa-gear"></i>
+                                                 </button>
+                                                 <ul class="action-dropdown dropdown-menu" role="menu">
+                                                     <li>
+                                                         @if (item.Type == ScreeningReport.kAutomaticGenerationType)
+                                                         {
+                                                             @Html.ActionLink(Report.ViewReport, "DownloadAutomaticReport", "Report", new {id = Model.ScreeningId, secondaryId = @item.Id}, null)
+                                                         }
+                                                         else
+                                                         {
+                                                             @Html.ActionLink(Report.ViewReport, "DownloadManualReport", "Report", new {id = Model.ScreeningId, secondaryId = @item.Id}, null)
+                                                         }
+                                                     </li>
+                                                     @if (item.Version.Equals(Common.NA) && (item.ScreeningStatus == "VALIDATED" || item.ScreeningStatus == "SUBMITTED" || item.ScreeningStatus == "UPDATING"))
+                                                     {
+                                                         <li>
+                                                             <a href="#" class="submit-report" data-reportid="@(item.Id)" data-screeningid="@Model.ScreeningId">@Common.Submit</a>
+                                                         </li>
+                                                     }
+                                                 </ul>
+                                             </div>).Title("").Width(30);
+      })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.Id))
+      ))
+<br />
+
+@if (!Roles.IsUserInRole("Client"))
+{
+    <a id="upload-manual-report-button" href="#" class="btn btn-default" data-screening-id="@Model.ScreeningId">@Common.Upload</a>
+}
+
+@*Provide a div to show modal div*@
+
+<div class="modal fade in" id="upload-manual-report-modal">
+    <div id="upload-manual-report-modal-container"></div>
+</div>
+
+
+<div class="modal fade in" id="submit-report-modal">
+    <div id="submit-report-modal-container"></div>
+</div>
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+}
+<script>
+    
+    $(document).ready(function () {
+
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isReportStatus(value)) {
+                var myclass = "report_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+
+            if (value == 'Automatic' || value == 'Manual') {
+                var myclass = "report_type_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+
+        };
+        $('td:nth-last-child(3)').each(fillStatusCell);
+        $('td:nth-last-child(2)').each(fillStatusCell);
+    });
+
+
+
+    //GET UploadManualReport to return a partial view
+    $('#upload-manual-report-button').click(function() {
+        var url = "/Report/UploadManualReport";
+        var screeningId = $(this).attr('data-screening-id');
+
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + screeningId, function(data) {
+            $("#upload-manual-report-modal-container").html(data);
+            $("#upload-manual-report-modal").modal('show');
+        });
+    });
+
+
+    $('.submit-report').click(function() {
+        var url = "/Report/SubmitReport"; // the url to the controller
+        var reportId = $(this).attr('data-reportid'); // Report Id
+        var screeningId = $(this).attr('data-screeningid'); // Screening Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + screeningId + '/' + reportId, function(data) {
+            $('#submit-report-modal-container').html(data);
+            $('#submit-report-modal').modal('show');
+        });
+    });
+
+</script>

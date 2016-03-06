@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Cover Page";
+    Layout = "~/Views/Shared/_LayoutPDF.cshtml";
+}
+
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Report.CoverPageViewModel
+
+<div style="position: relative; font-family: Arial, sans-serif !important;">
+    <div style="text-align: center;">
+        <img src="@(Server.MapPath("~/Images/report/report_cover.png"))" alt="Cover">
+    </div>
+    <div style="position: absolute; width: 400px; color: black; top: 20px; left: 10px; margin-left: 285px; margin-top: 300px; z-index: 5; text-align: center">
+        <h2>@Report.CoverTitle</h2>
+        <h3>@Model.FullName</h3>
+        <h5>@Model.ScreeningReference</h5>
+        <br />
+        <br />
+        <h3>@Model.DateOfIssuance</h3>
+    </div>
+</div>

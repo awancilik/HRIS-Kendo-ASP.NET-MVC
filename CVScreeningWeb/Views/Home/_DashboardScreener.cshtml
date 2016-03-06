@@ -1,0 +1,59 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model  CVScreeningWeb.ViewModels.Home.DashboardScreenerViewModel
+
+@{
+    ViewBag.IsKendoEnabled = true;
+}
+
+@using (var tabs = Html.Bootstrap().Begin(new Tabs("TabsId")))
+{
+    @tabs.Tab(Home.AtomicCheckOnGoing)
+    @tabs.Tab(Home.AtomicCheckPendingValidation)
+    
+    using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksOnGoing)
+    }
+        using (tabs.BeginPanel())
+    {
+        @Html.Partial("_AtomicCheckGridView", Model.AtomicChecksPendingValidation)
+    }
+}
+    
+
+
+   <script>
+
+       $(document).ready(function () {
+
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            value = value.replace("Rejected","");   // Clean div content before checking that it is atomic check status
+            console.log(value);
+
+            if (screeningNamespace.isAtomicCheckStatus(value)) {
+                var myclass = "atomiccheck_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+        $('td:nth-last-child(2)').each(fillStatusCell);
+        $('td:nth-last-child(3)').each(fillStatusCell);
+
+        $('td:first-child > div').each(function () {
+            var myobject = $(this);
+            var validationStatus = myobject.data("validationstatus");
+            console.log(validationStatus);
+
+            if (validationStatus == "Rejected QC") {
+                $(this).parent().parent().addClass('atomic_check_rejected');    
+            }
+        });
+            
+    });
+
+</script>

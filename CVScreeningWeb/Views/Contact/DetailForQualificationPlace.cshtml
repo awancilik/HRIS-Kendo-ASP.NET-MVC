@@ -1,0 +1,59 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Contact.ContactFormViewModel
+
+@{
+    ViewBag.Title = Common.DetailTitle + " " + Contact.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+}
+
+<div class="form-horizontal">
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control").Readonly()
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Position).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Position).Class("form-control").Readonly()
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.EmailAddress).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.EmailAddress).Class("form-control").Readonly()
+            </div>
+        </div>
+        @Html.DisplayFor(m => m.AddressViewModel)
+        @Html.DisplayFor(m => m.MobilePhoneNumber)
+        @Html.DisplayFor(m => m.WorkPhoneNumber)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Comment).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Comment).Class("form-control").Readonly()
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class=@CSSHelper.BUTTON_CONTROL_CLASS>
+                @Html.ActionLink(Common.Ok, "ManageForQualificationPlace", "Contact",
+                new { id = Model.QualificationPlaceId }, new { Class = "btn  btn-default" })
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <style scoped>
+        .k-readonly {
+            color: gray;
+        }
+    </style>

@@ -1,0 +1,78 @@
+﻿@using CVScreeningWeb.Helpers
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>@ViewBag.Title - Pre-employment Screening</title>
+        <link href="~/Images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet"> 
+
+        @if (ViewBag.IsKendoEnabled != null && ViewBag.IsKendoEnabled)
+        {
+            @Styles.Render("~/Content/web/css")
+        }
+        @Styles.Render("~/Content/site")        
+        @Styles.Render("~/Content/bootstrap")
+        @Styles.Render("~/Content/mytheme")
+        @RenderSection("Styles", false)
+        
+        @Scripts.Render("~/bundles/jquery")
+        @if (ViewBag.IsKendoEnabled != null && ViewBag.IsKendoEnabled)
+        {
+            @Scripts.Render("~/bundles/kendo-web")
+        }
+        @Scripts.Render("~/bundles/bootstrap")        
+        @Scripts.Render("~/bundles/mytheme")
+        @RenderSection("Scripts", false)
+    </head>
+    <body class="fixed-width">
+        <section id="container">
+            @Html.Action("Menu", "Navigation")
+            <section id="main-content" class="merge-left">
+                <section class="wrapper">
+                    <div class="row">
+                        @if (IsSectionDefined("leftSidebar") && IsSectionDefined("rightSideBar"))
+                        {
+                            ViewBag.PanelClass = "col-md-4";
+                        }
+                        else if (IsSectionDefined("leftSidebar") ^ IsSectionDefined("rightSideBar"))
+                        {
+                            ViewBag.PanelClass = "col-md-9";
+                        }
+
+                        @if (IsSectionDefined("leftSidebar"))
+                        {
+                            @LayoutHelper.DrawPanel(
+                                new MvcHtmlString(RenderSection("leftSidebar").ToHtmlString())
+                                , ViewBag.TitleLeftSidebar, "col-md-3")
+                        }
+                        @LayoutHelper.DrawPanel(
+                            new MvcHtmlString(@RenderBody().ToHtmlString()), ViewBag.Title,
+                            ViewBag.PanelClass ?? CSSHelper.FULL_PAGE_CLASS,
+                            ViewBag.GridClass ?? CSSHelper.FULL_PAGE_CLASS)
+                        @if (IsSectionDefined("rightSideBar"))
+                        {
+                            @LayoutHelper.DrawPanel(
+                                new MvcHtmlString(RenderSection("rightSideBar").ToHtmlString())
+                                , ViewBag.TitleRightSidebar, "col-md-3")
+                        }
+                    </div>
+                </section>
+            </section>
+            <footer class="footer-section">
+                <div class="text-center">
+                    <p>&copy; @DateTime.Now.Year - PT Integrity Indonesia</p>
+                    <p>Developped by PT Nalysa</p>
+
+                </div>
+            </footer>
+        </section>
+        <script>
+            $(document).ready(function() {
+                $("ul.action-dropdown").not(":has(li)").parent().remove();
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+
+<li class="dropdown">
+    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">@Menu.DataManagement<b class=" fa fa-angle-down"></b></a>
+    <ul class="dropdown-menu">
+        <li>@Html.ActionLink(Menu.Company, "Index", "Company")</li>
+        <li class="dropdown-submenu">
+            <a href="#">Education</a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink(Menu.University, "Index", "University")</li>
+                <li>@Html.ActionLink(Menu.HighSchool, "Index", "HighSchool")</li>
+            </ul>
+        </li>
+        <li>@Html.ActionLink(Menu.Police, "Index", "Police")</li>
+        <li class="dropdown-submenu">
+            <a href="#">Certification</a>
+            <ul class="dropdown-menu">
+                <li>@Html.ActionLink(Menu.ProfessionalQualification, "Index", "ProfessionalQualification")</li>
+                <li>@Html.ActionLink(Menu.CertificationPlace, "Index", "CertificationPlace")</li>
+            </ul>
+        </li>
+        <li>@Html.ActionLink(Menu.Court, "Index", "Court")</li>
+        <li>@Html.ActionLink(Menu.ImmigrationOffice, "Index", "ImmigrationOffice")</li>
+        <li>@Html.ActionLink(Menu.DrivingLicenseOffice, "Index", "DrivingLicenseOffice")</li>
+        <li>@Html.ActionLink(Menu.PopulationOffice, "Index", "PopulationOffice")</li>
+    </ul>
+</li>   

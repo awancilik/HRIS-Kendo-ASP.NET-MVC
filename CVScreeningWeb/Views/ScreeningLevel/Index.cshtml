@@ -1,0 +1,60 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.ScreeningLevel.ScreeningLevelsManageViewModel
+@{
+    ViewBag.Title = Common.ManageTitle + " " + ScreeningLevel.Object;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+
+@(Html.Kendo().Grid(Model.ScreeningLevels)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+         columns.Bound(e => e.ScreeningLevelId).Template(@<div class="right" >
+                                                         @{ number = number + 1; }
+                                                         @number
+                                                     </div>)
+                      .Title(Common.Id).Width(20);
+         columns.Bound(e => e.ScreeningLevelName).Width(150);
+         columns.Bound(e => e.ScreeningLevelVersion.VersionNumber).Width(65).HtmlAttributes(new { style = "text-align: center" });
+          columns.Bound(e => e.ScreeningLevelVersion.StartDate).Width(75);
+          columns.Bound(e => e.ScreeningLevelVersion.EndDate).Width(75);
+          columns.Bound(e => e.ScreeningLevelId).Template(@<div class="btn-group dropup">
+                                                               <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                                    <i class="fa fa-gear"></i>
+                                                               </button>
+                                                               <ul class="action-dropdown  dropdown-menu dropdown-menu-content" role="menu">
+                                                                   @if (!Roles.IsUserInRole("Client"))
+                                                                   {
+                                                                       <li>@Html.ActionLink("Edit", "Edit", "ScreeningLevel", new { id = @item.ScreeningLevelId, secondaryId = @item.ScreeningLevelVersion.ScreeningLevelVersionId }, null)</li>
+                                                                       <li>@Html.ActionLink("Update", "Update", "ScreeningLevel", new { id = @item.ScreeningLevelId, secondaryId = @item.ScreeningLevelVersion.ScreeningLevelVersionId }, null)</li>
+                                                                   }
+                                                                   <li>@Html.ActionLink("Details", "Details", "ScreeningLevel", new { id = @item.ScreeningLevelId, secondaryId = @item.ScreeningLevelVersion.ScreeningLevelVersionId }, null)</li>
+                                                               </ul>
+                                                           </div>)
+              .Width(30).Title("");
+      })
+      .Pageable()
+      .Sortable()
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.ScreeningLevelId))
+          .Destroy("Destroy", "ScreeningLevel")
+      ))
+
+<br />
+
+@if (!Roles.IsUserInRole("Client"))
+{
+    @Html.ActionLink(Common.CreateNew, "Create", "ScreeningLevel", new {id = Model.ContractId}, new {Class = "btn  btn-default"})
+}
+

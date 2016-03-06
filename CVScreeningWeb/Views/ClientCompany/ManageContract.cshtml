@@ -1,0 +1,89 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Contract.ContractClientCompanyManageViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + ClientCompany.Contract;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@(Html.Kendo().Grid(Model.ContractManageViewModels)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right" >
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(30);
+          columns.Bound(e => e.ReferenceNumber).Width(130);
+          columns.Bound(e => e.Year).Width(100);
+/*          if (!Roles.IsUserInRole("Client"))
+          {
+              columns.Bound(e => e.IsEnabled).Width(100);
+          }*/
+          columns.Bound(e => e.Description).Width(200);
+          columns.Bound(e => e.Id).Width(210).Template(@<div class="btn-group dropup">
+                                                            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                                <i class="fa fa-gear"></i>
+                                                            </button>
+                                                            <ul class="action-dropdown dropdown-menu" role="menu">
+                                                                @if (!Roles.IsUserInRole("Client"))
+                                                                {
+                                                                    <li>
+                                                                        @Html.ActionLink(Common.Edit, "EditContract", "ClientCompany",
+                                                                            new {id = @item.Id}, null)
+                                                                    </li>
+@*                                                                    if (item.IsEnabled)
+                                                                    {
+                                                                        <li>
+                                                                            @Html.ActionLink(ClientCompany.DisableContract, "DeactivateContract", "ClientCompany",
+                                                                                new {id = @item.Id, clientCompanyId = Model.ClientCompanyId},
+                                                                                new {confirmPrompt = Common.DeleteConfirmation})
+                                                                        </li>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li>
+                                                                            @Html.ActionLink(ClientCompany.EnableContract, "ActivateContract", "ClientCompany",
+                                                                                new {id = @item.Id, clientCompanyId = Model.ClientCompanyId},
+                                                                                new {confirmPrompt = Common.DeleteConfirmation})
+                                                                        </li>
+                                                                    }*@
+                                                                }
+                                                                <li>
+                                                                    @Html.ActionLink(ScreeningLevel.ManageScreeningLevel,
+                                                                        "Index", "ScreeningLevel",
+                                                                        new {id = @item.Id}, null)
+                                                                </li>
+                                                            </ul>
+                                                        </div>).Title("").Width(30);
+      })
+      .Pageable()
+      .Sortable(sortable => sortable.AllowUnsort(false))
+      .Resizable(resize => resize.Columns(true))
+      .Filterable()
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.Id))
+      ))
+<br />
+
+@if (!Roles.IsUserInRole("Client") && !Model.ContractManageViewModels.Any())
+{
+    @Html.ActionLink(ClientCompany.CreateContract, "CreateContract", "ClientCompany",
+        new {clientCompanyId = Model.ClientCompanyId}, new {Class = "btn  btn-default"})
+}
+
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

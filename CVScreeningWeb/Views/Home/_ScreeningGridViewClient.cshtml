@@ -1,0 +1,59 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Home.ScreeningGridViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Screening.Object;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString[Model.Type + "-page"])
+        ? Int32.Parse(Request.QueryString[Model.Type + "-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString[Model.Type + "-pageSize"])
+        ? Int32.Parse(Request.QueryString[Model.Type + "-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+}
+
+
+
+
+@(Html.Kendo().Grid(Model.Screenings)
+      .Name("Grid" + Model.Type)
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right">
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>).Width(20);               
+          columns.Bound(e => e.Reference).Width(135);
+          columns.Bound(e => e.Name).Width(140);
+          columns.Bound(e => e.ScreeningLevel).Width(100);
+          columns.Bound(e => e.Deadline).Width(80);
+          columns.Bound(e => e.DayPending).Width(80);
+          columns.Bound(e => e.Status).Width(100);
+          columns.Bound(e => e.Id).Template(@<div>@Html.Action("ActionMenu", "Screening", @item)</div>).Width(40).Title("");
+
+      })
+                          .Pageable()
+                          .Sortable()
+                          .Scrollable(scr => scr.Height("auto"))
+                          .Resizable(resize => resize.Columns(true))                          
+                          .DataSource(dataSource => dataSource
+                              .Server()
+                              .Sort(sort => sort.Add(e => e.Reference))
+                              .Sort(sort => sort.Add(e => e.Name))
+                              .Model(model => model.Id(p => p.Id))
+                          ))
+
+<br />
+@Html.ActionLink(Screening.CreateScreening, "Create", "Screening", null, new { Class = "btn  btn-default" })
+
+
+
+

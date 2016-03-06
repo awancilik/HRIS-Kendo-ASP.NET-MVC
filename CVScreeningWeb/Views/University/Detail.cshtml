@@ -1,0 +1,44 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model CVScreeningWeb.ViewModels.University.UniversityFormViewModel
+
+@{
+    ViewBag.Title = Common.DetailTitle + " " + University.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+}
+
+<div class="form-horizontal">
+
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control").Readonly()
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.WebSite).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.WebSite).Class("form-control").Readonly()
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Faculties).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @for (var i = 0; i < Model.Faculties.Count(); i++)
+                {
+                    @Html.Bootstrap().TextBoxFor(m => m.Faculties.ToArray()[i].Name).Class("form-control").Readonly()
+                }
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class=@CSSHelper.BUTTON_CONTROL_CLASS>
+                @Html.ActionLink(Common.Ok, "Index", "University", new { id = Model.Id }, new { Class = "btn  btn-default" })
+            </div>
+        </div>
+    </fieldset>
+</div>

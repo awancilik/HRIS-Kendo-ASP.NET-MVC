@@ -1,0 +1,69 @@
+﻿@using CVScreeningWeb.Helpers
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.PublicHoliday.PublicHolidayDeleteViewModel
+
+@{
+    ViewBag.Title = "Public holiday deletion";
+    ViewBag.PanelClass = "col-md-12";
+}
+
+<h3>Are you sure you want to delete this public holiday?</h3>
+
+
+@using (Html.BeginForm("Delete", "PublicHoliday", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class="col-md-3">
+                    @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control").Readonly()
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.StartDate).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class="col-md-3">
+                    @(Html.Kendo().DatePickerFor(m => m.StartDate)
+                          .Format("dd/MM/yyyy")
+                          )                   
+                    @Html.ValidationMessageFor(m => m.StartDate)
+                </div>
+                @Html.Bootstrap().LabelFor(m => m.EndDate).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class="col-md-3">
+                    @(Html.Kendo().DatePickerFor(m => m.EndDate)
+                          .Format("dd/MM/yyyy")
+                          )
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.Remarks).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class="col-md-3">
+                    @Html.Bootstrap().TextAreaFor(m => m.Remarks).Class("form-control").Readonly()
+                    @Html.ValidationMessageFor(m => m.Remarks)
+                </div>
+                <div class="col-md-6">
+                </div>
+            </div>
+        </div>
+        <div>@Html.HiddenFor(m => m.Id)</div>
+
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text("Delete")
+                @Html.ActionLink("Cancel", "Index", "PublicHoliday", null, new {Class = "btn  btn-default"})
+            </div>
+        </div>
+    </fieldset>
+}

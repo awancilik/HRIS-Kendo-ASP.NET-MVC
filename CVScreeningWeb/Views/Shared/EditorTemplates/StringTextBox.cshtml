@@ -1,0 +1,13 @@
+﻿@using CVScreeningWeb.Helpers
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().TextBoxFor(m => m).Class("form-control")
+            @Html.ValidationMessageFor(m => m)
+        </div>
+    </div>
+   
+   
+}

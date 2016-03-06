@@ -1,0 +1,73 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Screening.ScreeningManageViewModel
+    
+
+<div class="btn-group dropup">
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+        <i class="fa fa-gear"></i>
+    </button>
+    <ul class="action-dropdown dropdown-menu dropdown-menu-content" role="menu">
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Client") || Roles.IsUserInRole("Account Manager") 
+            || Roles.IsUserInRole("Qualifier") || Roles.IsUserInRole("Production Manager")
+            || Roles.IsUserInRole("Screener") || Roles.IsUserInRole("Quality Control"))
+        {
+            <li>@Html.ActionLink(Common.Detail, "Detail", "Screening", new { id = Model.Id }, null)</li>
+        }
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Client") || Roles.IsUserInRole("Account Manager")
+            || Roles.IsUserInRole("Qualifier") || Roles.IsUserInRole("Quality Control"))
+        {
+            <li>@Html.ActionLink(Common.Edit, "Edit", "Screening", new { id = Model.Id }, null)</li>
+        }
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Qualifier"))
+        {
+            <li>@Html.ActionLink(Screening.Qualify, "Index", "Qualification", new { id = Model.Id }, null)</li>
+        }
+        @if (Roles.IsUserInRole("Administrator"))
+        {
+            if (Model.Status != "DEACTIVATED")
+            {
+                <li>@Html.ActionLink(Common.Deactivate, "Deactivate", "Screening", new { id = @Model.Id }, new { confirmPrompt = Account.DeactivateConfirmation })</li>
+            }
+        }
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Client") || Roles.IsUserInRole("Account Manager"))
+        {
+            <li>@Html.ActionLink(Discussion.ScreeningExternalDiscussion, "Index", "Discussion", new { id = @Model.ExternalDiscussionId }, null)</li>
+        }
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Qualifier") || Roles.IsUserInRole("Production Manager")
+            || Roles.IsUserInRole("Quality Control") || Roles.IsUserInRole("Account Manager"))
+        {
+            <li>@Html.ActionLink(Discussion.ScreeningInternalDiscussion, "Index", "Discussion", new { id = @Model.InternalDiscussionId }, null)</li>
+        }
+        
+        
+        @if (Roles.IsUserInRole("Administrator"))
+        {
+            <li>
+                <a href="#" class="assign-screening" data-id="@(Model.Id)">@Screening.AssignedTo</a>
+            </li>
+        }        
+
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Qualifier") || Roles.IsUserInRole("Production Manager")
+            || Roles.IsUserInRole("Screener") || Roles.IsUserInRole("Quality Control") || Roles.IsUserInRole("Account Manager"))
+        {
+            <li>@Html.ActionLink(Screening.ManageAtomicCheck, "ManageForScreening", "AtomicCheck", new { id = @Model.Id }, null)</li>
+        }
+        
+        
+        @if (Roles.IsUserInRole("Administrator") || Roles.IsUserInRole("Quality Control") || Roles.IsUserInRole("Account Manager"))
+        {
+            if (Model.Status == "Validated" || Model.Status == "Submitted" || Model.Status == "Updating")
+            {
+                <li>@Html.ActionLink(Screening.ManageReport, "ManageReport", "Report", new { id = @Model.Id }, null)</li>
+            }
+        }
+        @if (Roles.IsUserInRole("Client"))
+        {
+            if (Model.Status == "Submitted" || Model.Status == "Updating")
+            {
+                <li>@Html.ActionLink(Screening.ManageReport, "ManageReport", "Report", new { id = @Model.Id }, null)</li>
+            }
+        }
+    </ul>
+</div>

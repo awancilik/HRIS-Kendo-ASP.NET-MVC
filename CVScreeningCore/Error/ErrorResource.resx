@@ -1,0 +1,372 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ACCOUNT_DEACTIVATED" xml:space="preserve">
+    <value>Account has been deactivated</value>
+  </data>
+  <data name="ACCOUNT_EMAIL_ALREADY_EXISTS" xml:space="preserve">
+    <value>Account email is already existing in the application</value>
+  </data>
+  <data name="ACCOUNT_NOT_QUALITY_CONTROL" xml:space="preserve">
+    <value>The user provided does not belong to quality control role</value>
+  </data>
+  <data name="ACCOUNT_PASSWORD_RECOVERY_ERROR" xml:space="preserve">
+    <value>Account password cannot be changed</value>
+  </data>
+  <data name="ACCOUNT_SCREENER_CATEGORY_MISSING" xml:space="preserve">
+    <value>Screener category is mandatory for user profile with screener role</value>
+  </data>
+  <data name="ACCOUNT_USERID_NOT_FOUND" xml:space="preserve">
+    <value>Account is not found in the application</value>
+  </data>
+  <data name="ACCOUNT_USERNAME_NOT_FOUND" xml:space="preserve">
+    <value>Accout email does not exist</value>
+  </data>
+  <data name="ACCOUNT_WRONG_CREDENTIALS" xml:space="preserve">
+    <value>The login is invalid. Please review it</value>
+  </data>
+  <data name="ACCOUNT_WRONG_PASSWORD" xml:space="preserve">
+    <value>The current password is invalid. Please review it</value>
+  </data>
+  <data name="ATOMIC_CHECK_ALREADY_DEACTIVATED" xml:space="preserve">
+    <value>Atomic check has been already deactivated</value>
+  </data>
+  <data name="ATOMIC_CHECK_CATEGORY_MISMATCH_ASSIGNEMENT_IMPOSSIBLE" xml:space="preserve">
+    <value>Atomic check cannot be assigned as there is mismatching between screener category and atomic check category</value>
+  </data>
+  <data name="ATOMIC_CHECK_FORWARDED_IMPOSSIBLE" xml:space="preserve">
+    <value>Atomic check cannot be forwarded to other screener</value>
+  </data>
+  <data name="ATOMIC_CHECK_INSERT_ERROR" xml:space="preserve">
+    <value>Cannot insert atomic check</value>
+  </data>
+  <data name="ATOMIC_CHECK_NOT_APPLICABLE_ASSIGNEMENT_IMPOSSIBLE" xml:space="preserve">
+    <value>Atomic check cannot be assigned as it is with the status NOT APPLICABLE</value>
+  </data>
+  <data name="ATOMIC_CHECK_NOT_APPLICABLE_UPDATE_ERROR" xml:space="preserve">
+    <value>Type of check already qualified cannot become not applicable</value>
+  </data>
+  <data name="ATOMIC_CHECK_NOT_FOUND" xml:space="preserve">
+    <value>Atomic check is not found</value>
+  </data>
+  <data name="ATOMIC_CHECK_NOT_QUALIFIED_ASSIGNEMENT_IMPOSSIBLE" xml:space="preserve">
+    <value>Atomic check cannot be assigned as it is not yet qualified</value>
+  </data>
+  <data name="ATOMIC_CHECK_PROCESSED_CANNOT_BE_ON_GOING" xml:space="preserve">
+    <value>Atomic check with status "ON GOING" cannot be processed and send to quality control</value>
+  </data>
+  <data name="ATOMIC_CHECK_PROCESSED_CANNOT_BE_ON_PROCESS_FORWARDED" xml:space="preserve">
+    <value>Atomic check with status "ON PROCESS FORWARDED" cannot be processed and send to quality control</value>
+  </data>
+  <data name="ATOMIC_CHECK_SUMMARY_MANDATORY" xml:space="preserve">
+    <value>Summary field is mandatory. Please fill before submitting data</value>
+  </data>
+  <data name="ATTACHMENT_NOT_FOUND" xml:space="preserve">
+    <value>Attachment has not been found</value>
+  </data>
+  <data name="CLIENT_COMPANY_ACCOUNT_MANAGER_MISSING" xml:space="preserve">
+    <value>Please choose an account manager</value>
+  </data>
+  <data name="CLIENT_COMPANY_ALREADY_EXISTS" xml:space="preserve">
+    <value>Client company is already existing</value>
+  </data>
+  <data name="CLIENT_COMPANY_CONTACT_PERSON_ALREADY_EXISTS" xml:space="preserve">
+    <value>Client company contact is already existing</value>
+  </data>
+  <data name="CLIENT_COMPANY_CONTACT_PERSON_NOT_FOUND" xml:space="preserve">
+    <value>Client company contact has not been found</value>
+  </data>
+  <data name="CLIENT_COMPANY_CONTRACT_ALREADY_EXISTS" xml:space="preserve">
+    <value>Client contract is already existing</value>
+  </data>
+  <data name="CLIENT_COMPANY_CONTRACT_NOT_FOUND" xml:space="preserve">
+    <value>Client contract has not been found</value>
+  </data>
+  <data name="CLIENT_COMPANY_NOT_FOUND" xml:space="preserve">
+    <value>Client company has not been found</value>
+  </data>
+  <data name="COMMON_ADDRESS_NOT_FOUND" xml:space="preserve">
+    <value>Address has not been found</value>
+  </data>
+  <data name="COMMON_CONTACT_PERSON_ALREADY_EXIST" xml:space="preserve">
+    <value>Contact person is already exist. Please insert the different name.</value>
+  </data>
+  <data name="COMMON_CONTACT_PERSON_DELETE_ERROR" xml:space="preserve">
+    <value>Cannot delete contact person</value>
+  </data>
+  <data name="COMMON_CONTACT_PERSON_INSERT_ERROR" xml:space="preserve">
+    <value>Cannot insert contact person</value>
+  </data>
+  <data name="COMMON_CONTACT_PERSON_NOT_FOUND" xml:space="preserve">
+    <value>Contact person is not found</value>
+  </data>
+  <data name="COMMON_FORM_VALIDATION_ERROR" xml:space="preserve">
+    <value>Form Validation Error. Please kindly double check you data submission.</value>
+  </data>
+  <data name="COMMON_LOCATION_ALREADY_EXISTS" xml:space="preserve">
+    <value>Location is already existing</value>
+  </data>
+  <data name="COMMON_LOCATION_NOT_FOUND" xml:space="preserve">
+    <value>Location has not been found</value>
+  </data>
+  <data name="DBLOOKUP_PROFESSIONAL_QUALIFICATION_IS_EXIST" xml:space="preserve">
+    <value>Professional Qualification is exist. Please enter different name.</value>
+  </data>
+  <data name="DBLOOKUP_PROFESSIONAL_QUALIFICATION_NOT_FOUND" xml:space="preserve">
+    <value>Professional qualification is not found</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_NOT_COMPATIBLE_WITH_SCREENING" xml:space="preserve">
+    <value>Qualification is not compatible with the screening level</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_PLACE_ALREADY_DEACTIVATED" xml:space="preserve">
+    <value>Qualification place is already deactivated</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_PLACE_ALREADY_EXIST" xml:space="preserve">
+    <value>Qualification place is already exist</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_PLACE_DELETE_ERROR" xml:space="preserve">
+    <value>Cannot delete Qualification Place</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_PLACE_INSERT_ERROR" xml:space="preserve">
+    <value>Cannot insert Qualification Place</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_PLACE_NOT_FOUND" xml:space="preserve">
+    <value>The qualification place is not found</value>
+  </data>
+  <data name="DBLOOKUP_QUALIFICATION_PLACE_TYPE_NOT_MATCH" xml:space="preserve">
+    <value>Qualification place type is not match</value>
+  </data>
+  <data name="DBLOOKUP_UNIVERSITY_DELETE_ERROR" xml:space="preserve">
+    <value>Canoot delete University</value>
+  </data>
+  <data name="DBLOOKUP_UNIVERSITY_INSERT_ERROR" xml:space="preserve">
+    <value>Cannot insert University</value>
+  </data>
+  <data name="DBLOOKUP_UNIVERSITY_IS_EXIST" xml:space="preserve">
+    <value>University is already exist. Please enter different name.</value>
+  </data>
+  <data name="DBLOOKUP_UNIVERSITY_NOT_FOUND" xml:space="preserve">
+    <value>University is not found</value>
+  </data>
+  <data name="DISCUSSION_NOT_FOUND" xml:space="preserve">
+    <value>Discussion has not been found</value>
+  </data>
+  <data name="FILE_NOT_VALIDATED" xml:space="preserve">
+    <value>File is not valid. Please kindly check max file size and file type.</value>
+  </data>
+  <data name="MESSAGE_NOT_FOUND" xml:space="preserve">
+    <value>Message has not been found</value>
+  </data>
+  <data name="NOT_AUTHORIZED" xml:space="preserve">
+    <value>You are not authorized to perform this action</value>
+  </data>
+  <data name="NOT_FOUND" xml:space="preserve">
+    <value>The page you requested is not found</value>
+  </data>
+  <data name="NO_ERROR" xml:space="preserve">
+    <value>No Error</value>
+  </data>
+  <data name="PUBLIC_HOLIDAY_DATE_OVERLAPPING" xml:space="preserve">
+    <value>Public holiday is overlapping with an other already existing public holiday</value>
+  </data>
+  <data name="PUBLIC_HOLIDAY_NOT_FOUND" xml:space="preserve">
+    <value>Public holiday has not been found</value>
+  </data>
+  <data name="REPORT_NOT_FOUND" xml:space="preserve">
+    <value>Report has not been found</value>
+  </data>
+  <data name="REPORT_NOT_VALID_EXTENSION" xml:space="preserve">
+    <value>Report extension is not valid. Please upload a PDF file.</value>
+  </data>
+  <data name="REPORT_SUBMIT_MAIL_FAILURE" xml:space="preserve">
+    <value>Email failure during report submition. Please send an email manually</value>
+  </data>
+  <data name="ROLE_ALREADY_BELONGS_TO_USER" xml:space="preserve">
+    <value>The role has already been added to the user</value>
+  </data>
+  <data name="ROLE_ALREADY_EXISTS" xml:space="preserve">
+    <value>Role is already existing</value>
+  </data>
+  <data name="ROLE_MISSING" xml:space="preserve">
+    <value>Roles of the user profile are missing</value>
+  </data>
+  <data name="ROLE_NOT_BELONGS_TO_USER" xml:space="preserve">
+    <value>The role does not belong to the user</value>
+  </data>
+  <data name="ROLE_NOT_FOUND" xml:space="preserve">
+    <value>Role has not been found</value>
+  </data>
+  <data name="SCREENING_ACCOUNT_NOT_BELONGS_TO_SCREENER_ROLE" xml:space="preserve">
+    <value>User does not belongs to screener role</value>
+  </data>
+  <data name="SCREENING_ALREADY_DEACTIVATED" xml:space="preserve">
+    <value>Screening has already been deactivated</value>
+  </data>
+  <data name="SCREENING_ALREADY_EXIST" xml:space="preserve">
+    <value>Screening is already exist. Please enter different name</value>
+  </data>
+  <data name="SCREENING_CV_FILE_REQUIRED" xml:space="preserve">
+    <value>CV File is required. Please upload a valid document.</value>
+  </data>
+  <data name="SCREENING_LEVEL_ALREADY_EXISTS" xml:space="preserve">
+    <value>Screening level is already existing for this client</value>
+  </data>
+  <data name="SCREENING_LEVEL_NOT_FOUND" xml:space="preserve">
+    <value>Screening level has not been found</value>
+  </data>
+  <data name="SCREENING_LEVEL_SELECT_ANY_CHECKS" xml:space="preserve">
+    <value>Please select at least one type of check</value>
+  </data>
+  <data name="SCREENING_LEVEL_VERSION_ALREADY_EXISTS" xml:space="preserve">
+    <value>Screening level version is already existing for this client</value>
+  </data>
+  <data name="SCREENING_LEVEL_VERSION_NOT_EXISTING_FOR_PERIOD" xml:space="preserve">
+    <value>No screening level are available in the application. Please contact Integrity to inform them about this error</value>
+  </data>
+  <data name="SCREENING_LEVEL_VERSION_NOT_FOUND" xml:space="preserve">
+    <value>Screening level version has not been found</value>
+  </data>
+  <data name="SCREENING_LEVEL_VERSION_OVERLAPPING" xml:space="preserve">
+    <value>An other version of this screening level is overlapping with the information provided. Please review the date range</value>
+  </data>
+  <data name="SCREENING_NOT_FOUND" xml:space="preserve">
+    <value>Screening is not found</value>
+  </data>
+  <data name="TYPE_OF_CHECK_ALREADY_EXISTS" xml:space="preserve">
+    <value>Type of check is already existing</value>
+  </data>
+  <data name="TYPE_OF_CHECK_META_NOT_FOUND" xml:space="preserve">
+    <value>Type of check meta has not been found</value>
+  </data>
+  <data name="TYPE_OF_CHECK_NOT_FOUND" xml:space="preserve">
+    <value>Type of check has not been found</value>
+  </data>
+  <data name="UNKNOWN_ERROR" xml:space="preserve">
+    <value>Error has encountered in the application. Sorry for the inconvenience</value>
+  </data>
+  <data name="USER_LEAVE_DATE_OVERLAPPING" xml:space="preserve">
+    <value>An other leave of this user is overlapping with the information provided. Please review the data range</value>
+  </data>
+  <data name="USER_LEAVE_DATE_RANGE_ERROR" xml:space="preserve">
+    <value>Start date is greater than end date. Please update it</value>
+  </data>
+  <data name="USER_LEAVE_NOT_FOUND" xml:space="preserve">
+    <value>User leave has not been found</value>
+  </data>
+</root>

@@ -1,0 +1,93 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Screening.ScreeningLevelVersionViewModel
+
+@{
+    var clientCompanyId = Model.ClientCompanyId ?? "0";
+    var contractId = Model.ContractId ?? "0";
+    var screeningLevelId = Model.ScreeningLevelId ?? "0";
+    var screeningLevelVersionId = Model.ScreeningLevelVersionId ?? "0";
+
+    if (Model.IsClientMode)
+    {
+        Html.HiddenFor(m => m.ClientCompanyId);
+        <div class="form-group">
+            @Html.Bootstrap().Label(Screening.ScreeningLevel).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.ScreeningLevelId)
+                      .HtmlAttributes(new {@class = "form-control"})
+                      .OptionLabel(Screening.SelectScreeningLevel)
+                      .DataTextField("ScreeningLevelName")
+                      .DataValueField("ScreeningLevelId")
+                      .DataSource(source => source.Read(read => read.Action("GetScreeningLevelByCompanyJSON", "Screening")
+                          .Data("filterScreeningLevel"))
+                          .ServerFiltering(true))
+                      .Value(screeningLevelId)
+                      .Enable(true)
+                      .AutoBind(false)
+                      )
+                @Html.ValidationMessageFor(model => model.ScreeningLevelId)
+                <script>
+                    function filterScreeningLevel() {
+                        return {
+                            clientCompanyId: @Model.ClientCompanyId
+                        };
+                    }
+                </script>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="form-group">
+            @Html.Bootstrap().Label(ClientCompany.Object).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.ClientCompanyId)
+                      .HtmlAttributes(new {@class = "form-control"})
+                      .OptionLabel(Screening.SelectClientCompany)
+                      .DataTextField("ClientCompanyName")
+                      .DataValueField("ClientCompanyId")
+                      .DataSource(source =>
+                          source.Read(read => read.Action("GetClientCompanyJSON", "Screening")))
+                      .Value(clientCompanyId)
+                      )
+                @Html.ValidationMessageFor(model => model.ClientCompanyId)
+                
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().Label(Screening.ScreeningLevel).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.ScreeningLevelId)
+                      .HtmlAttributes(new {@class = "form-control"})
+                      .OptionLabel(Screening.SelectScreeningLevel)
+                      .DataTextField("ScreeningLevelName")
+                      .DataValueField("ScreeningLevelId")
+                      .DataSource(source => source.Read(read => read.Action("GetScreeningLevelByCompanyJSON", "Screening")
+                          .Data("filterScreeningLevel"))
+                          .ServerFiltering(true))
+                      .Value(screeningLevelId)
+                      .Enable(false)
+                      .AutoBind(false)
+                      .CascadeFrom("ScreeningLevelVersion_ClientCompanyId")
+                      )
+                @Html.ValidationMessageFor(model => model.ScreeningLevelId)
+                <script>
+                    function filterScreeningLevel() {
+                        return {
+                            clientCompanyId: $("#ScreeningLevelVersion_ClientCompanyId").val()
+                        };
+                    }
+                </script>
+            </div>
+        </div>
+    }
+
+
+    <script>
+        $.validator.setDefaults({
+            ignore: ""
+        });
+    </script>
+}

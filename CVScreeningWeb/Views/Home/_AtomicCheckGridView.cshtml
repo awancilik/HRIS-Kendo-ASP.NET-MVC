@@ -1,0 +1,55 @@
+﻿@using AutoMapper
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Home.AtomicCheckGridViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + AtomicCheck.Object;
+    ViewBag.IsKendoEnabled = true;
+    
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString[Model.Type + "-page"])
+        ? Int32.Parse(Request.QueryString[Model.Type + "-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString[Model.Type + "-pageSize"])
+        ? Int32.Parse(Request.QueryString[Model.Type + "-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@(Html.Kendo().Grid(Model.AtomicChecks)
+      .Name(Model.Type)
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right" data-validationstatus="@item.ValidationStatus">
+            @{ number = number + 1; }
+            @number
+        </div>)
+              .Title(Common.Id).Width(25);
+          columns.Bound(e => e.ScreeningFullName).Width(100);
+          columns.Bound(e => e.TypeOfCheck).Width(110);
+          columns.Bound(e => e.Deadline).Width(75);
+          columns.Bound(e => e.DayPending).Width(70);
+          columns.Bound(e => e.Status).Template(
+            @<div>@item.Status@if (item.ValidationStatus == "Rejected QC"){<span class="label label-danger pull-right">Rejected</span>}</div>)
+              .Width(135);
+          columns.Bound(e => e.Id).Template(@<div>@Html.Action("ActionMenu", "AtomicCheck", @item)</div>).Width(30).Title("");
+      })
+      
+                            .Pageable(pageable => pageable
+                                    .Refresh(true)
+                                    .PageSizes(true)
+                                    .ButtonCount(5))
+                              .Sortable()
+                              .Filterable()
+                              .Resizable(resize => resize.Columns(true))
+                                .Scrollable(scr => scr.Height("auto"))
+                              .DataSource(dataSource => dataSource
+                                  .Server().PageSize(10)
+                                                          .Sort(sort => sort.Add(e => e.DayPendingInt).Ascending())
+                                  .Model(model => model.Id(p => p.Id)))
+)
+
+
+
+
+

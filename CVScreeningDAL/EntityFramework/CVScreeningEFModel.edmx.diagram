@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="93da31941f9a491ca6ef2692d2f7a1aa" Name="Diagram1" ZoomLevel="72">
+        <EntityTypeShape EntityType="CVScreeningModel.Address" Width="2.375" PointX="0.75" PointY="9.125" />
+        <EntityTypeShape EntityType="CVScreeningModel.ClientCompany" Width="1.5" PointX="3" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.ContactInfo" Width="1.5" PointX="0.75" PointY="13.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.Contract" Width="1.5" PointX="5.125" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.ProfessionalQualification" Width="2.375" PointX="0.75" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.PublicHoliday" Width="2.25" PointX="6" PointY="5.25" />
+        <EntityTypeShape EntityType="CVScreeningModel.QualificationPlace" Width="2.125" PointX="3.125" PointY="16.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.Screening" Width="1.5" PointX="14.375" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.ScreeningLevel" Width="1.5" PointX="7.375" PointY="18.875" IsExpanded="false" />
+        <EntityTypeShape EntityType="CVScreeningModel.ScreeningQualification" Width="3" PointX="7.375" PointY="11.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.TypeOfCheck" Width="2.375" PointX="9.125" PointY="19.75" IsExpanded="false" />
+        <EntityTypeShape EntityType="CVScreeningModel.TypeOfCheckMeta" Width="1.875" PointX="9.125" PointY="18.5" IsExpanded="false" />
+        <EntityTypeShape EntityType="CVScreeningModel.University" Width="1.5" PointX="0.75" PointY="18" />
+        <EntityTypeShape EntityType="CVScreeningModel.UserLeave" Width="1.5" PointX="11.125" PointY="11.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.webpages_Membership" Width="3.125" PointX="9.125" PointY="5.25" />
+        <EntityTypeShape EntityType="CVScreeningModel.webpages_OAuthMembership" Width="2.625" PointX="5.625" PointY="8" IsExpanded="true" />
+        <EntityTypeShape EntityType="CVScreeningModel.webpages_Roles" Width="1.875" PointX="9.625" PointY="8.875" IsExpanded="true" />
+        <AssociationConnector Association="CVScreeningModel.FK_CLIENTCOMPANY_RELATIONSHIP_13_ADDRESS" />
+        <AssociationConnector Association="CVScreeningModel.FK_QUALIFICATIONPLA_QUALIFICATIONPLACE_HAS_ONE_ADDRE_ADDRESS" />
+        <AssociationConnector Association="CVScreeningModel.FK_CLIENTCOMPANY_CLIANTCOMPANY_HAS_ONE_CONTACT_CONTACTINFO" />
+        <AssociationConnector Association="CVScreeningModel.FK_CONTRACT_CLIENTCOMPANY_HAS_CONTRACT_CLIENTCOMPANY" ManuallyRouted="false" >
+        </AssociationConnector>
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_SCREENING_HAS_MANY_SCREENINGQUAL_SCREENING" />
+        <AssociationConnector Association="CVScreeningModel.FK_TYPEOFCHECKMETA_TYPEOFCHECK_NEEDS_METADATA_TYPEOFCHECK" />
+        <AssociationConnector Association="CVScreeningModel.ProfessionalQualificationOfProfessionalQualificationCenter" />
+        <AssociationConnector Association="CVScreeningModel.QualificationPlaceOfScreening" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="CVScreeningModel.Court" Width="1.5" PointX="5.875" PointY="17.875" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.Court" />
+        <EntityTypeShape EntityType="CVScreeningModel.Police" Width="1.5" PointX="5.125" PointY="18.875" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.Police" />
+        <EntityTypeShape EntityType="CVScreeningModel.Faculty" Width="1.5" PointX="5.125" PointY="19.375" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.Faculty" />
+        <AssociationConnector Association="CVScreeningModel.FK_QUALIFICATIONPLA_UNIVERSITY_HAS_FACULTIES_UNIVERSITY" />
+        <EntityTypeShape EntityType="CVScreeningModel.HighSchool" Width="1.5" PointX="5.125" PointY="19.875" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.HighSchool" />
+        <EntityTypeShape EntityType="CVScreeningModel.DrivingLicenseCheckingOffice" Width="1.5" PointX="5.125" PointY="20.375" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.DrivingLicenseCheckingOffice" ManuallyRouted="false" >
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="CVScreeningModel.ImmigrationOffice" Width="1.5" PointX="5.125" PointY="20.875" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.ImmigrationOffice" />
+        <EntityTypeShape EntityType="CVScreeningModel.Company" Width="1.5" PointX="5.125" PointY="21.375" IsExpanded="false" />
+        <InheritanceConnector EntityType="CVScreeningModel.Company" />
+        <EntityTypeShape EntityType="CVScreeningModel.Location" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="CVScreeningModel.FK_ADDRESS_ADDRESS_TO_LOCATION_LOCATION" />
+        <AssociationConnector Association="CVScreeningModel.FK_LOCATION_PARENT_TO_CHILD_LOCATION_LOCATION" />
+        <EntityTypeShape EntityType="CVScreeningModel.CertificationPlace" Width="1.5" PointX="4.375" PointY="0.875" />
+        <InheritanceConnector EntityType="CVScreeningModel.CertificationPlace" />
+        <EntityTypeShape EntityType="CVScreeningModel.Post" Width="1.5" PointX="3.375" PointY="2.75" />
+        <EntityTypeShape EntityType="CVScreeningModel.webpages_UserProfile" Width="1.5" PointX="9.75" PointY="21.25" />
+        <AssociationConnector Association="CVScreeningModel.FK_WEBPAGES_USERPRO_APPLICATIONUSER_HAS_ONE_ADDRESSR_ADDRESS" />
+        <AssociationConnector Association="CVScreeningModel.FK_WEBPAGES_USERPRO_APPLICATIONUSER_HAS_ONE_CONTACT_CONTACTINFO" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENING_QC_CONTROLS_SCREENING_WEBPAGES_USERPRO" />
+        <AssociationConnector Association="CVScreeningModel.FK_USERLEAVE_INTEGRITYUSER_TO_USERLEAVE_WEBPAGES_USERPRO" />
+        <AssociationConnector Association="CVScreeningModel.webpages_UsersInRoles" />
+        <AssociationConnector Association="CVScreeningModel.FK_WEBPAGES_USERPRO_RELATIONSHIP_14_CLIENTCOMPANY" />
+        <AssociationConnector Association="CVScreeningModel.ClientCompanyAccountManager" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGLEVEL_CONTRACTS_HAS_SCREENING_LEVELS_CONTRACT" />
+        <EntityTypeShape EntityType="CVScreeningModel.TypeOfCheckScreeningLevelVersion" Width="1.5" PointX="12.5" PointY="18.5" />
+        <AssociationConnector Association="CVScreeningModel.FK_TYPEOFCHECKSCREE_TYPEOFCHECK_INFORMATION_TYPEOFCHECK" />
+        <EntityTypeShape EntityType="CVScreeningModel.Tenant" Width="1.5" PointX="5.375" PointY="2.875" />
+        <AssociationConnector Association="CVScreeningModel.FK_CONTACTINFO_RELATIONSHIP_17_SCREENINGQUALIFI" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_RELATIONSHIP_18_CONTACTINFO" ManuallyRouted="false" >
+        </AssociationConnector>
+        <EntityTypeShape EntityType="CVScreeningModel.AtomicCheck" Width="1.5" PointX="16.625" PointY="19.75" />
+        <AssociationConnector Association="CVScreeningModel.FK_ATOMICCHECK_ATOMICCHECK_HAS_QUALIFICATIONPLA_QUALIFICATIONPLA" />
+        <AssociationConnector Association="CVScreeningModel.FK_ATOMICCHECK_ATOMICCHECK_HAS_TYPEOFCHECK_TYPEOFCHECKSCREE" />
+        <AssociationConnector Association="CVScreeningModel.FK_ATOMICCHECK_RELATIONSHIP_23_SCREENING" />
+        <AssociationConnector Association="CVScreeningModel.FK_ATOMICCHECK_SCREENER_HAS_MANY_ATOMICCHECK_WEBPAGES_USERPRO" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_SCQUALIFICATION_HAS_CURRENTADDRE_ADDRESS" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_SCQUALIFICATION_HAS_CVADDRESS_ADDRESS" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_SCQUALIFICATION_HAS_IDCARDADDRES_ADDRESS" />
+        <EntityTypeShape EntityType="CVScreeningModel.Attachment" Width="1.5" PointX="20.875" PointY="17" />
+        <AssociationConnector Association="CVScreeningModel.FK_ATTACHMENT_ATOMICCHECK_HAS_APPENDIXATTACHME_ATOMICCHECK" />
+        <AssociationConnector Association="CVScreeningModel.FK_ATTACHMENT_SCREENINGATTACHMENT_SCREENING" />
+        <EntityTypeShape EntityType="CVScreeningModel.ScreeningReport" Width="2.625" PointX="16.625" PointY="12.375" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGREPORT_SCREENING_HAS_REPORTS_SCREENING" />
+        <EntityTypeShape EntityType="CVScreeningModel.History" Width="1.5" PointX="18.875" PointY="21" />
+        <AssociationConnector Association="CVScreeningModel.FK_HISTORY_HISTORY_ITEM_LINKED_ATOMIC_CHECK_ATOMICCHECK" />
+        <AssociationConnector Association="CVScreeningModel.FK_HISTORY_HISTORY_ITEM_LINKED_SCREENING_SCREENING" />
+        <AssociationConnector Association="CVScreeningModel.FK_HISTORY_RELATIONSHIP_8_WEBPAGES_USERPRO" />
+        <EntityTypeShape EntityType="CVScreeningModel.Discussion" Width="1.5" PointX="20.875" PointY="13.25" />
+        <EntityTypeShape EntityType="CVScreeningModel.Message" Width="1.5" PointX="23.125" PointY="18.625" />
+        <AssociationConnector Association="CVScreeningModel.FK_DISCUSSION_ATOMICCHECK_HAS_DISCUSSION_ATOMICCHECK" />
+        <AssociationConnector Association="CVScreeningModel.FK_DISCUSSION_SCREENING_HAS_DISCUSSION_SCREENING" />
+        <AssociationConnector Association="CVScreeningModel.FK_MESSAGE_DISCUSSION_CONTAINS_MESSAGES_DISCUSSION" />
+        <AssociationConnector Association="CVScreeningModel.FK_MESSAGE_USER_POSTS_MESSAGES_WEBPAGES_USERPRO" />
+        <EntityTypeShape EntityType="CVScreeningModel.ContactPerson" Width="2.375" PointX="13.625" PointY="7.5" IsExpanded="true" />
+        <AssociationConnector Association="CVScreeningModel.FK_CONTACTPERSON_CONTACTPERSON_HAS_ONE_ADDRESS_ADDRESS" />
+        <AssociationConnector Association="CVScreeningModel.FK_CONTACTPERSON_CLIENTCOMPANY_HAS_CONTACTPERSONS_CLIENTCOMPANY" />
+        <AssociationConnector Association="CVScreeningModel.FK_CONTACTPERSON_CONTACT_TO_CONTACTPERSON_CONTACTINFO" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_CVQUALIFICATION_HAS_EMERGENCYCPS_CONTACTPERSON" />
+        <AssociationConnector Association="CVScreeningModel.FK_WEBPAGES_USERPRO_INTEGRITYUSER_HAS_EMERGENCYCONTA_CONTACTPERSON" />
+        <AssociationConnector Association="CVScreeningModel.QualificationPlaceContactPerson" />
+        <EntityTypeShape EntityType="CVScreeningModel.DefaultMatrix" Width="1.5" PointX="14.25" PointY="22.375" />
+        <AssociationConnector Association="CVScreeningModel.FK_DEFAULTMATRIX_SCREENERTOTYPEOFCHECK_WEBPAGES_USERPRO" />
+        <AssociationConnector Association="CVScreeningModel.FK_DEFAULTMATRIX_TYPEOFCHECKTOSCREENER_TYPEOFCHECK" />
+        <EntityTypeShape EntityType="CVScreeningModel.Permission" Width="1.5" PointX="23.125" PointY="14.125" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_RELATIONSHIP_9_ATOMICCHECK" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_RELATIONSHIP_12_CONTRACT" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_RELATIONSHIP_11_DISCUSSION" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_PERMISSION_GRANTED_TO_USER_WEBPAGES_USERPRO" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_RELATIONSHIP_10_SCREENING" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_RELATIONSHIP_15_SCREENINGLEVEL" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_SCREENINGREPORT_HAS_PERMISSION_SCREENINGREPORT" />
+        <AssociationConnector Association="CVScreeningModel.fk_PermissionRoleId" />
+        <EntityTypeShape EntityType="CVScreeningModel.SkillMatrix" Width="1.5" PointX="12" PointY="22.625" />
+        <AssociationConnector Association="CVScreeningModel.FK_SKILLMATRIX_QUALIFICATIONPLACETOSCREENER_QUALIFICATIONPLA" />
+        <AssociationConnector Association="CVScreeningModel.FK_SKILLMATRIX_SCREENERTOQUALIFICATIONPLACE_WEBPAGES_USERPRO" />
+        <EntityTypeShape EntityType="CVScreeningModel.Notification" Width="1.5" PointX="9.75" PointY="28.125" />
+        <EntityTypeShape EntityType="CVScreeningModel.NotificationOfUser" Width="1.5" PointX="12" PointY="26.125" />
+        <AssociationConnector Association="CVScreeningModel.FK_NOTIFICATIONOFUS_NOTIFICATIONUSERREFERENCE_NOTIFICATION" />
+        <AssociationConnector Association="CVScreeningModel.FK_NOTIFICATIONOFUS_USER_SEE_NOTIFICATIONS_WEBPAGES_USERPRO" />
+        <EntityTypeShape EntityType="CVScreeningModel.DispatchingSettings" Width="2.75" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="CVScreeningModel.PopulationOffice" Width="1.5" PointX="5.375" PointY="22.375" />
+        <InheritanceConnector EntityType="CVScreeningModel.PopulationOffice" />
+        <EntityTypeShape EntityType="CVScreeningModel.ScreeningQualificationPlaceMeta" Width="1.5" PointX="16.625" PointY="16.625" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_RELATIONSHIP_19_QUALIFICATIONPLA" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGQUALIFI_RELATIONSHIP_20_SCREENING" />
+        <EntityTypeShape EntityType="CVScreeningModel.ScreeningLevelVersion" Width="1.5" PointX="9.625" PointY="31.25" />
+        <AssociationConnector Association="CVScreeningModel.FK_PERMISSION_RELATIONSHIP_16_SCREENINGLEVELVE" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENING_SLVERSION_HAS_SCREENINGS_SCREENINGLEVELVE" />
+        <AssociationConnector Association="CVScreeningModel.FK_SCREENINGLEVELVE_SCREENINGLEVEL_HAS_VERSIONS_SCREENINGLEVEL" />
+        <AssociationConnector Association="CVScreeningModel.FK_TYPEOFCHECKSCREE_SCREENING_LEVEL_VERSION_HAS_TYPE_SCREENINGLEVELVE" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

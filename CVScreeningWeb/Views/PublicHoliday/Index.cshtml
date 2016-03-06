@@ -1,0 +1,49 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.PublicHoliday.PublicHolidayManageViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + PublicHoliday.Object;
+    ViewBag.IsKendoEnabled = true;
+    
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+ 
+@(Html.Kendo().Grid(Model.PublicHolidays)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right" >
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(30);          columns.Bound(e => e.Name).Width(150);
+          columns.Bound(e => e.StartDate).Width(75);
+          columns.Bound(e => e.EndDate).Width(75);
+          columns.Bound(e => e.Remarks).Width(200);
+          columns.Bound(e => e.Id).Template(@<div class="btn-group dropup">
+                                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                      <i class="fa fa-gear"></i>
+                                                 </button>
+                                                 <ul class="action-dropdown dropdown-menu dropdown-menu-content" role="menu">
+                                                     <li>@Html.ActionLink(Common.Edit, "Edit", "PublicHoliday", new {id = @item.Id}, null)</li>
+                                                     <li>@Html.ActionLink(Common.Delete, "Delete", "PublicHoliday", new { id = @item.Id }, new { confirmPrompt = PublicHoliday.DeletePublicHoliday})</li>
+                                                 </ul>
+                                             </div>)
+              .Width(30).Title("");
+      })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.Id))
+      ))
+
+<br />
+@Html.ActionLink(Common.CreateNew, "Create", "PublicHoliday", null, new {Class = "btn  btn-default"})

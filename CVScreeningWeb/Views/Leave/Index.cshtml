@@ -1,0 +1,74 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Leave.LeaveManageViewModel
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Leave.Object;
+    ViewBag.PanelClass = "col-md-12";
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize; 
+}
+
+<div class="row">
+    <div class="col-md-6 form-horizontal">
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.UserName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.UserName).Class("form-control").Readonly()
+            </div>
+        </div>
+    </div>    
+    <div class="col-md-6 form-horizontal">
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.FullName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.FullName).Class("form-control").Readonly()
+            </div>
+        </div>
+    </div>    
+</div>
+<br/>
+
+@(Html.Kendo().Grid(Model.UserLeaves)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.No).Width(30).Template(@<div class="right" >
+                                                           @{ number = number + 1; }
+                                                           @number
+                                                       </div>).Title(Common.Id).Width(20);
+          columns.Bound(e => e.Name).Width(150);
+          columns.Bound(e => e.StartDate).Width(75);
+          columns.Bound(e => e.EndDate).Width(75);
+          columns.Bound(e => e.Remarks).Width(250);
+          columns.Bound(e => e.No).Template(@<div class="btn-group dropup">
+                                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                      <i class="fa fa-gear"></i>
+                                                 </button>
+                                                 <ul class="action-dropdown dropdown-menu dropdown-menu-content" role="menu">
+                                                     <li>@Html.ActionLink(Common.Edit, "Edit", "Leave", new {id = Model.UserId, secondaryId = @item.No}, null)</li>
+                                                     <li>
+                                                         @Html.ActionLink(Common.Delete, "Delete", "Leave", new {id = Model.UserId, secondaryId = @item.No},
+                                                                   new { confirmPrompt = Leave.DeleteLeave })
+                                                 </li>
+                                                 </ul>
+                                             </div>)
+              .Width(30).Title("");
+      })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.No))
+          .Destroy("Destroy", "Account")
+      ))
+
+<br />
+@Html.ActionLink(Common.CreateNew, "Create", "Leave", new { id = Model.UserId }, new { Class = "btn  btn-default" })

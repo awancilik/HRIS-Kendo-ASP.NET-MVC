@@ -1,0 +1,78 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Leave.LeaveFormViewModel
+
+@{
+    ViewBag.Title = Common.Submit + " " + Leave.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Edit", "Leave", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.LeaveId)
+    @Html.HiddenFor(m => m.UserId)    
+    <fieldset>
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.UserName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.Bootstrap().TextBoxFor(m => m.UserName).Class("form-control").Readonly()
+                    @Html.ValidationMessageFor(m => m.UserName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.FullName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.Bootstrap().TextBoxFor(m => m.FullName).Class("form-control").Readonly()
+                    @Html.ValidationMessageFor(m => m.FullName)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.Name).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.Bootstrap().TextBoxFor(m => m.Name).Class("form-control")
+                    @Html.ValidationMessageFor(m => m.Name)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.StartDate).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class="col-md-3">
+                    @(Html.Kendo().DatePickerFor(m => m.StartDate)
+                          .Format("dd/MM/yyyy")
+                          )                    
+                    @Html.ValidationMessageFor(m => m.StartDate)
+                </div>
+                @Html.Bootstrap().LabelFor(m => m.EndDate).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class="col-md-3">
+                    @(Html.Kendo().DatePickerFor(m => m.EndDate)
+                          .Format("dd/MM/yyyy")     
+                          )
+                    @Html.ValidationMessageFor(m => m.EndDate)
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Bootstrap().LabelFor(m => m.Remarks).Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.Bootstrap().TextAreaFor(m => m.Remarks).Class("form-control")
+                    @Html.ValidationMessageFor(m => m.Remarks)
+                </div>
+            </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @Html.ActionLink(Common.Cancel, "Index", "Leave", new {id = Model.UserId}, new {Class = "btn  btn-default"})
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+
+    @Scripts.Render("~/bundles/jqueryval")
+
+}

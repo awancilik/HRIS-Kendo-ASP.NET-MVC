@@ -1,0 +1,87 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Report.SubmitReportViewModel
+
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+@Scripts.Render("~/bundles/jquery")
+@Styles.Render("~/Content/web/css")
+@Scripts.Render("~/bundles/kendo-web")
+
+@Styles.Render("~/Content/site")
+@Styles.Render("~/Content/bootstrap")
+@Styles.Render("~/Content/mytheme")
+
+@Scripts.Render("~/bundles/bootstrap")
+@Scripts.Render("~/bundles/mytheme")
+
+@Scripts.Render("~/Scripts/jquery.unobtrusive-ajax.js")
+
+
+<div class="modal-dialog">
+    <div class="modal-content" id="submit-report-form">
+        <div class="modal-header">
+            <h4 class="modal-title">@Screening.AssignedTo</h4>
+        </div>
+
+        <div class="modal-body">
+            @using (Ajax.BeginForm("SubmitReport", "Report", FormMethod.Post,
+                    new AjaxOptions
+                    {
+                        HttpMethod = "POST",
+                        UpdateTargetId = "submit-report-form",
+                        OnBegin = "onBegin",
+                        OnComplete = "onComplete",                        
+                        OnSuccess = "onSuccessSubmitReport",
+                    }))
+            {
+                @Html.ValidationSummary()
+                @Html.AntiForgeryToken()
+                @Html.HiddenFor(m => m.ReportId)
+                @Html.HiddenFor(m => m.ScreeningId)
+
+            <label style="font-size: 1.2em;">@Report.ReportSubmitConfirmation</label><br/>
+
+            <div class="form-group">
+                <div>
+                    @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                    @Html.ActionLink(Common.Cancel, "ManageReport", "Report", new { id = Model.ScreeningId }, new { Class = "btn  btn-default" })
+
+                </div>
+            </div> 
+            }
+            <div id="divLoading" style="text-align: center;"></div>
+
+
+        </div>
+
+        <div class="modal-footer">
+        </div>
+
+    </div>
+</div>
+
+<script>    
+
+
+    function onBegin() {
+        $("#divLoading").html('<image src="/Content/loading.gif" alt="Loading, please wait" />');
+    }
+    function onComplete() {
+        $("#divLoading").html("");
+    }
+
+
+    // Function call when assignTo action is successfully executed. Redirect to screening atomic check page
+    function onSuccessSubmitReport(data, status, xhr) {
+        var returnUrl = data['redirectTo'];
+        if (returnUrl) {
+            window.location.href = returnUrl;
+        }
+    }
+
+    // Bind modal to event when the window is closed, page is reloaded
+    $('#submit-report-modal').on('hidden.bs.modal', function () {
+        document.location.reload();
+    });
+</script>

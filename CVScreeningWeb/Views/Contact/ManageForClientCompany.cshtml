@@ -1,0 +1,69 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Contact.ContactManageClientCompanyViewModel
+
+
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Contact.Object + " OF " + Model.ClientCompanyName;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@(Html.Kendo().Grid(Model.Contacts)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right">
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(30);
+          columns.Bound(e => e.Name).Width(150);
+          columns.Bound(e => e.Position).Width(150);
+          columns.Bound(e => e.EmailAddress).Width(120);
+          columns.Bound(e => e.PhoneNumber).Width(120);
+          columns.Bound(e => e.IsDeactivated).Width(100);
+          columns.Bound(e => e.Id).Width(210).Template(@<div class="btn-group dropup">
+                                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                      <i class="fa fa-gear"></i>
+                                                 </button>
+                                                 <ul class="action-dropdown dropdown-menu" role="menu">
+                                                     <li>@Html.ActionLink(Common.Detail, "DetailClientCompany", "Contact", new {id = @item.Id}, null)</li>
+                                                     <li>@Html.ActionLink(Common.Edit, "EditClientCompany", "Contact", new {id = @item.Id}, null)</li>
+                                                     <li>
+                                                         @{
+    if (item.IsDeactivated)
+    {
+        @Html.ActionLink("Activate", "ActivateQualificationPlace", "Contact", new { id = @item.Id, qualificationPlaceId = Model.ClientCompanyId }, new { confirmPrompt = "Are you sure?" })
+    }
+    else
+    {
+        @Html.ActionLink("Deactivate", "DeactivateQualificationPlace", "Contact", new { id = @item.Id, qualificationPlaceId = Model.ClientCompanyId }, new { confirmPrompt = "Are you sure?" })
+    }
+}
+                                                     </li>
+                                                 </ul>
+                                             </div>).Title("").Width(30);
+      })
+      .Pageable()
+      .Sortable()
+      .Filterable()
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Sort(e => e.Add(f => f.IsDeactivated).Ascending())
+          .Model(model => model.Id(p => p.Id))
+      ))
+<br />
+@Html.ActionLink(Common.CreateNew, "CreateForClientCompany", "Contact",
+    new {clientCompanyId = Model.ClientCompanyId}, new {Class = "btn  btn-default"})
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

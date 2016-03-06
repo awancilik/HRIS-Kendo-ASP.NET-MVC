@@ -1,0 +1,13 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Shared.AttachmentViewModel
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            <div class="external-event label label-success">
+                @Html.ActionLink(Model.FileName, "DownloadFile", "Shared", new { id = Model.Id }, new { target = "_blank" })
+            </div>
+        </div>
+    </div>
+}

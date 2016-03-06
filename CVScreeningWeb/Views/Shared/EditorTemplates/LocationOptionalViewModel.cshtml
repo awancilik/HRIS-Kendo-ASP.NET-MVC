@@ -1,0 +1,172 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.Common.LocationOptionalViewModel
+
+@{
+    var countryId = Model.CountryId ?? "0";
+    var provinceId = Model.ProvinceId ?? "0";
+    var cityId = Model.CityId ?? "0";
+    var districtId = Model.DistrictId ?? "0";
+    var subDistrictId = Model.SubDistrictId ?? "0";
+    var className = ViewData["className"] ?? "Address";
+    var isIndonesiaShown = Model.CountryName == "Indonesia" || Model.CountryName == "INDONESIA" ? "" : "display:none;";
+    
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m.CountryId).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class="col-md-7">
+            @(Html.Kendo().DropDownListFor(m => m.CountryId)
+                  .HtmlAttributes(new { @class = "form-control" })
+                  .OptionLabel("Select country...")
+                  .DataTextField("CountryName")
+                  .DataValueField("CountryId")
+                  .DataSource(source => source.Read(read => read.Action("GetCountry", "Common")))
+                  .Value(countryId)
+                  .Events(e => e
+                      .Change("dropdownlist_change"+className)
+                  )
+                  )
+            @Html.ValidationMessageFor(model => model.CountryId)
+        </div>
+    </div>
+    
+    <script>
+        function dropdownlist_change@(className)(e) {
+
+        //Handle the change event
+        var text = this.text();
+        if (text == "Indonesia" || text == "INDONESIA") {
+            $("#indonesia_group@(className)").show();
+            $("#indonesia_address@(className)").show();
+            $("#complete_address@(className)").hide();
+        }
+        else if (text == "Select country...") {
+            $("#indonesia_group@(className)").hide();
+            $("#indonesia_address@(className)").hide();
+            $("#complete_address@(className)").hide();
+        }
+        else {
+            $("#indonesia_group@(className)").hide();
+            $("#indonesia_address@(className)").hide();
+            $("#complete_address@(className)").show();}
+        }
+        
+    </script>
+
+    <div id="indonesia_group@(className)" style="@(isIndonesiaShown)">
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.ProvinceId).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.ProvinceId)
+                .HtmlAttributes(new { @class = "form-control" })
+                .OptionLabel("Select province...")
+                .DataTextField("ChildrenName")
+                .DataValueField("ChildrenId")
+              .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterProvince" + className))
+                .ServerFiltering(true))
+                .Value(provinceId)
+                .Enable(false)
+                .AutoBind(false)
+                        .CascadeFrom(className + "ViewModel_LocationViewModel_CountryId")
+                )
+                @Html.ValidationMessageFor(model => model.ProvinceId)
+                <script>
+                    function filterProvince@(className)() {
+                        return {
+                            parentId: $("#@(className)ViewModel_LocationViewModel_CountryId").val(),
+                            level: 2
+                        };
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.CityId).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.CityId)
+                .HtmlAttributes(new { @class = "form-control" })
+              .OptionLabel("Select city...")
+              .DataTextField("ChildrenName")
+              .DataValueField("ChildrenId")
+              .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterCity" + className))
+              .ServerFiltering(true))
+                .Value(cityId)
+                .Enable(false)
+                .AutoBind(false)
+                .CascadeFrom(className + "ViewModel_LocationViewModel_ProvinceId")
+                )
+                @Html.ValidationMessageFor(model => model.CityId)
+                <script>
+                    function filterCity@(className)() {
+                        return {
+                            parentId: $("#@(className)ViewModel_LocationViewModel_ProvinceId").val(),
+                            level: 3
+                        };
+                    }
+                </script>
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.DistrictId).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.DistrictId)
+                .HtmlAttributes(new { @class = "form-control" })
+              .OptionLabel("Select district...")
+              .DataTextField("ChildrenName")
+              .DataValueField("ChildrenId")
+              .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterDistrict" + className))
+                  .ServerFiltering(true))
+                .Value(districtId)
+                .Enable(false)
+                .AutoBind(false)
+                .CascadeFrom(className + "ViewModel_LocationViewModel_CityId")
+                )
+                @Html.ValidationMessageFor(model => model.DistrictId)
+
+
+                <script>
+                    function filterDistrict@(className)() {
+                        return {
+                            parentId: $("#@(className)ViewModel_LocationViewModel_CityId").val(),
+                            level: 4
+                        };
+                    }
+                </script>
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.SubDistrictId).Class(CSSHelper.LABEL_CONTROL_CLASS).ShowRequiredStar(true)
+            <div class="col-md-7">
+                @(Html.Kendo().DropDownListFor(m => m.SubDistrictId)
+                  .HtmlAttributes(new { @class = "form-control" })
+                  .OptionLabel("Select sub district...")
+                  .DataTextField("ChildrenName")
+                  .DataValueField("ChildrenId")
+                  .Value(subDistrictId)
+                  .DataSource(source => source.Read(read => read.Action("GetChildrenLocationByParentId", "Common").Data("filterSubDistrict" + className))
+                      .ServerFiltering(true))
+                  .Enable(false)
+                  .CascadeFrom(className + "ViewModel_LocationViewModel_DistrictId")
+                )
+                @Html.ValidationMessageFor(model => model.SubDistrictId)
+
+                <script>
+                    function filterSubDistrict@(className)() {
+                        return {
+                            parentId: $("#@(className)ViewModel_LocationViewModel_DistrictId").val(),
+                            level: 5
+                        };
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+
+<script>
+    $.validator.setDefaults({
+        ignore: ""
+    });
+</script>
+}

@@ -1,0 +1,20 @@
+﻿@using CVScreeningWeb.Resources
+
+<div class="error-head"></div>
+<div class="container ">
+    <section class="error-wrapper text-center">
+        <h1>
+            <img src="/Images/500.png" alt="">
+        </h1>
+        <div class="error-desk" style="background: none;">
+            <h2>Ooops!!!</h2>
+            <p style="font-size: 40px;">@Error.SomethingWrong</p>
+            <p>@Error.ContactAdmin</p>
+        </div>
+        
+        <a href="/" class="back-btn home">
+            <i class="fa fa-home"><span class="button_text">@Error.BackToHome</span></i> 
+        </a>
+        
+    </section>
+</div>

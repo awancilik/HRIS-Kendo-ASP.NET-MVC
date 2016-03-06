@@ -1,0 +1,21 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Shared.InlineListViewModel
+           
+@{
+    var list = "";
+    const int maxItems = 3;
+    for (var i = 0; i < Model.List.ToList().Count - 1; i++)
+    {
+        list += Model.List.ToArray()[i] + Model.Saparation + " ";
+        if (i == maxItems)
+        {
+            list += "..." + Model.Saparation + " ";
+            break;
+        }
+    }
+    list += Model.List.ToArray()[Model.List.ToList().Count - 1];
+
+    <div>
+            @list
+    </div>
+}

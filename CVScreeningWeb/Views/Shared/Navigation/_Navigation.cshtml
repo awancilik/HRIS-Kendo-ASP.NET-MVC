@@ -1,0 +1,56 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model CVScreeningWeb.ViewModels.Navigation.NavigationViewModel
+
+<header class="header fixed-top clearfix">
+    <!--logo start-->
+    <div class="brand">
+        <a href="@HTMLHelper.BaseUrl()">
+            @Html.Image(@Url.Content("~/Images/integrity_logo.png"), "Integrity Logo", "59")
+        </a>
+    </div>
+    <!--logo end-->
+    <div class="horizontal-menu navbar-collapse collapse">
+        <!--  top menu start -->
+        <ul class="nav navbar-nav">
+            <!-- if user is logged in -->
+            @if (Request.IsAuthenticated)
+            {
+                @Html.Partial("Navigation/_HomeMenu")
+                @Html.Partial("Navigation/_SettingsMenu", Model.SettingsMenu)
+                if (Model.ClientMenu.IsDisplayed)
+                {
+                    @Html.Partial("Navigation/_ClientMenu")
+                }
+                if (Model.LookupMenu.IsDisplayed)
+                {
+                    @Html.Partial("Navigation/_LookupMenu")
+                }
+                if (Model.ProductionMenu.IsDisplayed)
+                {
+                    @Html.Partial("Navigation/_ProductionMenu")
+                }
+                if (Model.SearchMenu.IsDisplayed)
+                {
+                    @Html.Partial("Navigation/_SearchMenu")
+                }                
+                @Html.Partial("Navigation/_AboutMenu")
+                @Html.Partial("Navigation/_ContactMenu")
+            }
+            else
+            {
+                @Html.Partial("Navigation/_HomeMenu")
+                @Html.Partial("Navigation/_AboutMenu")
+                @Html.Partial("Navigation/_ContactMenu")
+            }
+        </ul>
+
+        <!--  top menu end -->
+    </div>
+    <!-- login menu start -->
+    <div class="top-nav">
+        @Html.Partial("_LoginPartial")
+    </div>
+    <!-- login menu end -->
+</header>

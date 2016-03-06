@@ -1,0 +1,27 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model IEnumerable<CVScreeningWeb.ViewModels.Shared.AttachmentViewModel>
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @foreach (var attachment in Model)
+            {
+                <div class="external-event label label-default">
+                    @Html.ActionLink(attachment.FileName, "DownloadFile", "Shared", new { id = attachment.Id }, new { target = "_blank" })
+                </div>
+
+                if (attachment.AtomicCheckId != 0)
+                {
+                <div class="external-event label">
+                @Html.ActionLink(Common.Delete, "DeleteAtomicCheckAttachment", "Shared", new { id = attachment.Id, secondaryId = attachment.AtomicCheckId }, new { target = "_self" })
+                </div>            
+                }  
+             
+                <br/>
+            }
+        </div>
+    </div>
+}

@@ -1,0 +1,52 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.ClientCompany.ClientCompanyFormViewModel
+
+@{
+    ViewBag.Title = Common.DetailTitle + " " + ClientCompany.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+}
+<div class="form-horizontal">
+
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Company).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Company).Class("form-control").Readonly()
+            </div>
+        </div>
+        @Html.DisplayFor(m => m.Category)
+        @Html.DisplayFor(m => m.AddressViewModel)
+        @Html.DisplayFor(m => m.AccountManagers)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Website).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.Website).Class("form-control").Readonly()
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Description).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+				@Html.Bootstrap().TextAreaFor(m => m.Description).Class("form-control").Readonly()
+			</div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class=@CSSHelper.BUTTON_CONTROL_CLASS>
+                @Html.ActionLink(Common.Ok, "Index", "ClientCompany", null, new { Class = "btn  btn-default" })
+            </div>
+        </div>
+    </fieldset>
+</div>
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+
+    <style scoped>
+        .k-readonly {
+            color: gray;
+        }
+    </style>

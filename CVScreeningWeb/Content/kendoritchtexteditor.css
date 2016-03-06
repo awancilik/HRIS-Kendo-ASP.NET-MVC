@@ -1,0 +1,9 @@
+﻿.custParagraph {
+    font-family: Arial;
+    font-size: 11px;
+}
+.custHead1 {
+    font-family: Arial !important;
+    font-size: 11px !important;
+    text-decoration: underline !important;
+}

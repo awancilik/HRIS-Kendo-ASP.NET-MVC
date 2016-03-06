@@ -1,0 +1,17 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model ICollection<CVScreeningWeb.ViewModels.Navigation.SpecificMenuViewModel>
+           
+@if (Model.Any(link => link.IsDisplayed))
+{
+    <li class="dropdown">
+        <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">@Menu.Settings<b class=" fa fa-angle-down"></b></a>
+        <ul class="dropdown-menu">
+            @foreach (var link in Model.Where(link => link.IsDisplayed))
+            { 
+                <li>@Html.ActionLink(link.LinkText, link.ActionName, link.ControllerName)</li>                    
+            }
+        </ul>
+    </li>
+}

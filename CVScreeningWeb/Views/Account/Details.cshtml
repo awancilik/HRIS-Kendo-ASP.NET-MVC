@@ -1,0 +1,93 @@
+﻿@using CVScreeningWeb.Helpers
+@using MvcCheckBoxList.Model
+@using CVScreeningWeb.Resources
+@model CVScreeningWeb.ViewModels.Account.AccountDetailsViewModel
+
+@{
+    ViewBag.IsKendoEnabled = true;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.Title = Common.DetailTitle + " " + Account.Object;
+}
+
+<div class="form-horizontal">
+    @Html.AntiForgeryToken()
+    <fieldset>
+        <h3>Personal Information</h3>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.UserName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.UserName).Class("form-control").Readonly()
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.FullName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextBoxFor(m => m.FullName).Class("form-control").Readonly()
+            </div>
+        </div>
+
+        @Html.DisplayFor(m => m.AddressViewModel)
+
+
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Remarks).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Remarks).Class("form-control").Readonly()
+            </div>
+        </div>
+        @Html.DisplayFor(m => m.ScreenerCategory)
+
+
+        <h3>Contact Information</h3>
+        @Html.DisplayFor(m => m.HomePhoneNumber)
+        @Html.DisplayFor(m => m.WorkPhoneNumber)
+        
+        <div class="form-group">
+
+            @Html.Bootstrap().LabelFor(m => m.EmergencyContactName).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+
+                @Html.Bootstrap().TextBoxFor(m => m.EmergencyContactName).Class("form-control").Disabled()
+                @Html.ValidationMessageFor(m => m.EmergencyContactName)
+            </div>
+        </div>
+
+        @Html.DisplayFor(m => m.EmergencyWorkPhoneNumber)
+        @Html.DisplayFor(m => m.EmergencyMobilePhoneNumber)
+
+        @Html.DisplayFor(m => m.EmergencyWorkPhoneNumber)
+        @Html.DisplayFor(m => m.EmergencyMobilePhoneNumber)
+
+
+        <h3>Role Information</h3>
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.SelectedRoles).Class(CSSHelper.LABEL_CONTROL_CLASS)
+
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().ListBoxFor(m => m.SelectedRoles, Model.Roles).Class("form-control").Readonly()
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="@CSSHelper.BUTTON_CONTROL_CLASS">
+                @Html.ActionLink(Common.Ok, "Manage", "Account", null, new { Class = "btn  btn-default", Style = "margin-left:10px;width:100px;" })
+            </div>
+        </div>
+        </fieldset>
+        </div>
+    
+
+<script>
+    $(':radio, :checkbox').click(function() {
+        return false;
+    });
+</script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style scoped>
+    .k-readonly { color: gray; }
+</style>

@@ -1,0 +1,229 @@
+﻿@using CVScreeningCore.Models
+@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@using Screening = CVScreeningWeb.Resources.Screening
+@model CVScreeningWeb.ViewModels.Qualification.QualificationFormViewModel
+
+@{
+    ViewBag.Title = Common.SubmitTitle + " " + Screening.Object;
+    ViewBag.PanelClass = CSSHelper.SINGLE_COLUMN_FORM_CLASS;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Index", "Qualification", FormMethod.Post, new {@class = "form-horizontal"}))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+        @Html.HiddenFor(m => m.ScreeningId)
+        @Html.HiddenFor(m => m.PreviousPage)
+        @Html.Bootstrap().Label(Qualification.GeneralInformation).Class(CSSHelper.SUBTITLE_CONTROL_CLASS)
+        @Html.DisplayFor(m => m.FullName)
+        @Html.EditorFor(m => m.Gender)
+        @Html.EditorFor(m => m.MartialStatus)
+        @Html.EditorFor(m => m.BirthDate)
+        @Html.EditorFor(m => m.BirthPlace)
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.ID_CHECK])
+        {
+            @Html.EditorFor(m => m.IdCardNumber)
+            ;
+        }
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.PASSPORT_CHECK])
+        {
+            @Html.EditorFor(m => m.PassportNumber)
+            ;
+        }
+        <hr />
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.CONTACT_NUMBER_CHECK])
+        {
+            @Html.Bootstrap().Label(Qualification.ContactNumber).Class(CSSHelper.SUBTITLE_CONTROL_CLASS)
+            @Html.EditorFor(m => m.HomePhoneNumberIsNotApplicable)
+            <div id="@(Model.HomePhoneNumberIsNotApplicable.Id + "_element")">
+                @Html.EditorFor(m => m.HomePhoneNumber)
+            </div>
+            @Html.EditorFor(m => m.MobilePhoneNumberIsNotApplicable)
+            <div id="@(Model.MobilePhoneNumberIsNotApplicable.Id + "_element")">
+                @Html.EditorFor(m => m.MobilePhoneNumber)
+            </div>
+            @Html.EditorFor(m => m.EmergencyContactIsNotApplicable)
+            <div id="@(Model.EmergencyContactIsNotApplicable.Id + "_element")">
+                @Html.EditorFor(m => m.EmergencyContactName)
+                @Html.EditorFor(m => m.EmergencyContactRelationship)
+                @Html.EditorFor(m => m.EmergencyPhoneNumber)
+            </div>
+            <hr />
+        }
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.NEIGHBOURHOOD_CHECK])
+        {
+            @Html.Bootstrap().Label(Qualification.CurrentAddress).Class(CSSHelper.SUBTITLE_CONTROL_CLASS)
+            if (Model.CurrentAddressWrongQualification)
+            {
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="alert-icon"><i class="fa fa-warning"></i></span>
+                        @Html.Bootstrap().Label(Qualification.AddressWrongQualification).Class("control-label")
+                    </div>
+                </div>
+                @Html.EditorFor(m => m.CurrentAddressHasBeenRequalified);
+            }
+            @Html.EditorFor(m => m.CurrentAddressNotApplicable)
+
+
+            <div id="@(Model.CurrentAddressNotApplicable.Id + "_element")">
+                @Html.EditorFor(m => m.CurrentAddressViewModel)
+            </div>
+            <hr />
+            @Html.Bootstrap().Label(Qualification.IDCardAddress).Class(CSSHelper.SUBTITLE_CONTROL_CLASS)
+            if (Model.IDAddressWrongQualification)
+            {
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="alert-icon"><i class="fa fa-warning"></i></span>
+                        @Html.Bootstrap().Label(Qualification.AddressWrongQualification).Class("control-label")
+                    </div>
+                </div>
+                @Html.EditorFor(m => m.IDAddressHasBeenRequalified);
+            }
+            @Html.EditorFor(m => m.IDAddressNotApplicable)
+
+            <div id="@(Model.IDAddressNotApplicable.Id + "_element")">
+                @Html.EditorFor(m => m.IDCardAddressViewModel)
+            </div>
+            <hr />
+            @Html.Bootstrap().Label(Qualification.CVAddress).Class(CSSHelper.SUBTITLE_CONTROL_CLASS)
+            if (Model.CVAddressWrongQualification)
+            {
+                <div class="form-group">
+                    <div class="col-md-12">
+                        <span class="alert-icon"><i class="fa fa-warning"></i></span>
+                        @Html.Bootstrap().Label(Qualification.AddressWrongQualification).Class("control-label")
+                    </div>
+                </div>
+                @Html.EditorFor(m => m.CVAddressHasBeenRequalified);
+            }
+            @Html.EditorFor(m => m.CVAddressNotApplicable)
+
+            <div id="@(Model.CVAddressNotApplicable.Id + "_element")">
+                @Html.EditorFor(m => m.CVAddressViewModel)
+            </div>
+            <hr />
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.EMPLOYMENT_CHECK_STANDARD]
+             || Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.EMPLOYMENT_CHECK_PERFORMANCE])
+        {
+            @Html.EditorFor(m => m.CurrentCompany)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int)TypeOfCheckEnum.EMPLOYMENT_CHECK_STANDARD]
+             || Model.TypeOfChecksPresent[(int)TypeOfCheckEnum.EMPLOYMENT_CHECK_PERFORMANCE])
+        {
+            @Html.EditorFor(m => m.Company)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.LITIGATION_CHECK_CIVIL]
+             || Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.LITIGATION_CHECK_CRIMINAL]
+             || Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.LITIGATION_CHECK_CIVIL_CRIMINAL])
+        {
+            @Html.EditorFor(m => m.DistrictCourts)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.BANKRUPTY_CHECK])
+        {
+            @Html.EditorFor(m => m.CommercialCourts)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.INDUSTRIAL_CHECK])
+        {
+            @Html.EditorFor(m => m.IndustrialCourts)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.POLICE_CHECK])
+        {
+            @Html.EditorFor(m => m.Police)
+        }
+  
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.EDUCATION_CHECK_STANDARD]
+             || Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.EDUCATION_CHECK_WITH_EVIDENCE])
+        {
+            @Html.EditorFor(m => m.HighSchool)
+            @Html.EditorFor(m => m.Faculty)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.PROFESSIONNAL_QUALIFICATION_CHECK])
+        {
+            @Html.EditorFor(m => m.CertificationPlace)
+        }
+       
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.PASSPORT_CHECK])
+        {
+            @Html.EditorFor(m => m.ImmigrationOffice)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.DRIVING_LICENSE_CHECK])
+        {
+            @Html.EditorFor(m => m.DrivingLicenseOffice)
+        }
+        
+        @if (Model.TypeOfChecksPresent[(int) TypeOfCheckEnum.ID_CHECK])
+        {
+            @Html.EditorFor(m => m.PopulationOffice)
+        }
+
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @if (String.IsNullOrEmpty(Model.PreviousPage))
+                {
+                    @Html.ActionLink(Common.Cancel, "Index", "Screening", null, new { Class = "btn  btn-default" })
+                }
+                else
+                {
+                    <a class="btn  btn-default" href="@Model.PreviousPage">@Common.Cancel</a>
+                }
+            </div>
+        </div>
+    </fieldset>
+}
+
+@section Scripts {
+    <script type="text/javascript" src="~/Scripts/theme/filterScreeningQualification.js"></script>
+    <script type="text/javascript">
+        // Cascade change fron university drop down list
+        function dropdownlist_change_university() {
+            var university = $('#Faculty_DropDownListKendoUiViewModel_SelectedItem').data('kendoDropDownList');
+            var kendoDataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: '@Url.Action(Model.Faculty.MultiSelectKendoUiViewModel.Action, Model.Faculty.MultiSelectKendoUiViewModel.Controller)?id=' + university.value()
+                    }
+                }
+            });
+            var msSubSegments = $('#Faculty_MultiSelectKendoUiViewModel_SelectedItems').data('kendoMultiSelect');
+            msSubSegments.setDataSource(kendoDataSource);
+        }
+
+        // Cascade change fron professionnal qualification drop down list
+        function dropdownlist_change_professionnalqualification() {
+            var qualification = $('#CertificationPlace_DropDownListKendoUiViewModel_SelectedItem').data('kendoDropDownList');
+            var kendoDataSource = new kendo.data.DataSource({
+                transport: {
+                    read: {
+                        url: '@Url.Action(Model.CertificationPlace.MultiSelectKendoUiViewModel.Action, Model.CertificationPlace.MultiSelectKendoUiViewModel.Controller)?id=' + qualification.value()
+                    }
+                }
+            });
+            var msSubSegments = $('#CertificationPlace_MultiSelectKendoUiViewModel_SelectedItems').data('kendoMultiSelect');
+            msSubSegments.setDataSource(kendoDataSource);
+            msSubSegments.refresh();
+        }
+    </script>
+
+    @Scripts.Render("~/bundles/jqueryval")
+    
+}

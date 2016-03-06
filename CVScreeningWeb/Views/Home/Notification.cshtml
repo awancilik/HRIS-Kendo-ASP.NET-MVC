@@ -1,0 +1,9 @@
+﻿@using Microsoft.Ajax.Utilities
+@model IEnumerable<CVScreeningWeb.ViewModels.Notivication.NotificationViewModel>
+
+@{
+    foreach (var notificationViewModel in Model)
+    {
+        <div id='@notificationViewModel.NotificationId' class="notification_box">@(new HtmlString(@notificationViewModel.NotificationMessage)) </div>
+    }
+}

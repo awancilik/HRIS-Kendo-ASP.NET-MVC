@@ -1,0 +1,11 @@
+﻿@using CVScreeningWeb.Helpers
+@model CVScreeningWeb.ViewModels.Shared.SelectListItemViewModel
+
+@{
+    <div class="form-group">
+        @Html.Bootstrap().LabelFor(m => m).Class(CSSHelper.LABEL_CONTROL_CLASS)
+        <div class=@CSSHelper.INPUT_DIV_CLASS>
+            @Html.Bootstrap().ListBoxFor(m => m.ItemIds, Model.SelectListItems).Class("form-control").Readonly()
+        </div>
+    </div>
+}

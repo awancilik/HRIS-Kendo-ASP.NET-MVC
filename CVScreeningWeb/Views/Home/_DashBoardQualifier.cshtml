@@ -1,0 +1,38 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+@model  CVScreeningWeb.ViewModels.Home.DashboardQualifierViewModel
+
+@{
+    ViewBag.IsKendoEnabled = true;
+}
+
+    @Html.Partial("_ScreeningGridView", Model.ScreeningToQualify)
+
+   
+<script>
+
+    $(document).ready(function () {
+
+
+        // Fill status div with appropriate collor
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function () {
+            var value = $(this).text();
+            if (screeningNamespace.isQualifierStatus(value)) {
+                var myclass = "qualifier_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+
+            if (screeningNamespace.isWronglyQualified(value)) {
+                $(this).parent().addClass('atomic_check_rejected');
+            }
+
+        };
+        $('td:nth-last-child(2)').each(fillStatusCell);
+
+
+    });
+
+</script>

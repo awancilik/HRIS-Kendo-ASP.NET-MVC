@@ -1,0 +1,111 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model IEnumerable<CVScreeningWeb.ViewModels.AtomicCheck.AtomicCheckManageViewModel>
+@{
+    ViewBag.Title = Common.ManageTitle + " " + Screening.AtomicCheck;
+    ViewBag.IsKendoEnabled = true;
+    
+    // Page size settings and numbering
+    const int initPageSize = 25;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+    <script>
+        
+    </script>
+
+}
+
+    @Html.ValidationSummary()
+
+    @(Html.Kendo().Grid(Model)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right" data-validationstatus="@item.ValidationStatus">
+    @{ number = number + 1; }
+    @number
+</div>)
+              .Title(Common.Id).Width(25);
+          columns.Bound(e => e.ScreeningFullName).Width(110);
+          columns.Bound(e => e.TypeOfCheck).Width(110);
+          columns.Bound(e => e.AssignedTo).Width(80);
+          columns.Bound(e => e.Deadline).Width(65);
+          columns.Bound(e => e.DayPending).Width(65);
+          columns.Bound(e => e.Status).Template(@<div>@item.Status</div>).Width(90);
+          columns.Bound(e => e.ValidationStatus).Width(100);
+          columns.Bound(e => e.Id).Template(@<div>@Html.Action("ActionMenu", "AtomicCheck", @item)</div>).Width(30).Title("");
+    })
+    .Pageable(pageable => pageable
+            .Refresh(true)
+            .PageSizes(true)
+            .ButtonCount(5))
+      .Sortable()
+      .Filterable()
+      .Resizable(resize => resize.Columns(true))
+        .Resizable(resize => resize.Columns(true))
+        .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+        .Server().PageSize(initPageSize)
+                                                          .Sort(sort => sort.Add(e => e.DayPendingInt).Ascending())
+        
+          .Sort(sort => sort.Add(e => e.ScreeningFullName))
+          .Model(model => model.Id(p => p.Id)))
+        )
+
+
+    <div class="modal fade in" id="assign-modal">
+        <div id="assign-modal-container"></div>
+    </div>
+
+
+<script>
+    
+
+    $('.assign-atomic-check').click(function () {
+        var url = "/AtomicCheck/AssignedTo"; // the url to the controller
+        var atomicCheckId = $(this).attr('data-id'); // Atomic check Id
+        var screeningId = $(this).attr('data-screeningid'); // Screening Id
+
+        // Enable cache ajax setup to avoid to get css and js files again
+        $.ajaxSetup({
+            cache: true
+        });
+
+        $.get(url + '/' + atomicCheckId + '/' + screeningId, function (data) {
+            $('#assign-modal-container').html(data);
+            $('#assign-modal').modal('show');
+        });
+    });
+
+    $(document).ready(function () {
+        screeningNamespace.buildStatusAsString();
+        var fillStatusCell = function() {
+            var value = $(this).text();
+            if (screeningNamespace.isAtomicCheckStatus(value)) {
+                var myclass = "atomiccheck_status_" + value.toLowerCase().replace(/ /g, "_");
+                $(this).addClass(myclass);
+                $(this).addClass("grid_status");
+            }
+        };
+
+        $('td:nth-last-child(2)').each(fillStatusCell);
+        $('td:nth-last-child(3)').each(fillStatusCell);
+
+        $('td:first-child > div').each(function () {
+            var myobject = $(this);
+            var validationStatus = myobject.data("validationstatus");
+            console.log(validationStatus);
+
+            if (validationStatus == "Rejected QC") {
+                $(this).parent().parent().addClass('atomic_check_rejected');
+            }
+        });
+    });
+
+</script>

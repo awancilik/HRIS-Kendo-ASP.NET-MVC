@@ -1,0 +1,10 @@
+﻿@model CVScreeningWeb.ViewModels.Common.PostViewModel
+@{
+    ViewBag.TitleLeftSidebar = "Left Sidebar";
+}
+
+@section leftSidebar{
+    Content of left sidebar
+}
+
+@Html.Partial("_Post", Model)

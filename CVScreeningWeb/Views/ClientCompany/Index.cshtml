@@ -1,0 +1,55 @@
+﻿@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@using Resources
+@model IEnumerable<CVScreeningWeb.ViewModels.ClientCompany.ClientCompanyManageViewModel>
+
+@{
+    ViewBag.Title = Common.ManageTitle + " "  + ClientCompany.Object;
+    ViewBag.IsKendoEnabled = true;
+
+    // Page size settings and numbering
+    const int initPageSize = 10;
+    int page = !String.IsNullOrEmpty(Request.QueryString["Grid-page"]) ? Int32.Parse(Request.QueryString["Grid-page"]) : 1;
+    int pageSize = !String.IsNullOrEmpty(Request.QueryString["Grid-pageSize"]) ? Int32.Parse(Request.QueryString["Grid-pageSize"]) : initPageSize;
+    int number = (page - 1) * pageSize;
+}
+
+@(Html.Kendo().Grid(Model)
+      .Name("Grid")
+      .Columns(columns =>
+      {
+          columns.Bound(e => e.Id).Template(@<div class="right" >
+                                                 @{ number = number + 1; }
+                                                 @number
+                                             </div>)
+              .Title(Common.Id).Width(30);          
+          columns.Bound(e => e.Company).Width(150);
+          columns.Bound(e => e.Category).Width(100);
+          columns.Bound(e => e.AccountManager).Width(200);
+          columns.Bound(e => e.Id).Width(210).Template(@<div class="btn-group dropup">
+                                                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown">
+                                                      <i class="fa fa-gear"></i>
+                                                 </button>
+                                                            <ul class="action-dropdown dropdown-menu" role="menu">
+                                                                <li>@Html.ActionLink(Common.Detail, "Detail", "ClientCompany", new { id = @item.Id }, null)</li>
+                                                                <li>@Html.ActionLink(Common.Edit, "Edit", "ClientCompany", new { id = @item.Id }, null)</li>
+                                                                <li>@Html.ActionLink(Common.Contact, "ManageForClientCompany", "Contact", new { id = @item.Id }, null)</li>
+                                                                <li>@Html.ActionLink(ClientCompany.ManageContract, "ManageContract", "ClientCompany", new { id = @item.Id }, null)</li>
+                                                            </ul>
+                                             </div>).Title("").Width(30);
+      })
+      .Pageable()
+      .Sortable()
+      .Filterable()       
+      .Scrollable(scr => scr.Height("auto"))
+      .DataSource(dataSource => dataSource
+          .Server()
+          .Model(model => model.Id(p => p.Id))
+      ))
+<br />
+@Html.ActionLink(Common.CreateNew, "Create", "ClientCompany", null, new {Class = "btn  btn-default"})
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/jqueryval")
+}

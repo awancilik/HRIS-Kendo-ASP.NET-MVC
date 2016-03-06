@@ -1,0 +1,109 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Resources
+
+<header class="header fixed-top clearfix">
+    <!--logo start-->
+    <div class="brand">
+        <a href="@HTMLHelper.BaseUrl()">
+            @Html.Image(@Url.Content("~/Images/integrity_logo.png"), "Integrity Logo", "59")
+        </a>
+    </div>
+    <!--logo end-->
+    <div class="horizontal-menu navbar-collapse collapse">
+        <!--  top menu start -->
+        <ul class="nav navbar-nav">
+            <!-- if user is logged in -->
+            @if (Request.IsAuthenticated)
+            {
+                <li class="dropdown">
+                    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle">Administrator <b class=" fa fa-angle-down"></b></a>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-submenu">
+                            <a href="#">@Menu.UserManagement</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(Menu.UserManagement, "Manage", "Account")</li>
+                                <li><a href="#">@Menu.ScreenerWorkload</a></li>
+                            </ul>
+                        </li>
+                        <li><a href="#">@Menu.DispatchingManagement</a></li>
+                        <li class="dropdown-submenu">
+                            <a href=" #">@Menu.DataManagement</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(Menu.Company, "Index", "Company")</li>
+                                <li class="dropdown-submenu">
+                                    <a href="#">Education</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink(Menu.HighSchool, "Index", "HighSchool")</li>
+                                        <li>@Html.ActionLink(Menu.University, "Index", "University")</li>
+                                    </ul>
+                                </li>
+                                <li>@Html.ActionLink(Menu.Police, "Index", "Police")</li>
+                                <li class="dropdown-submenu">
+                                    <a href="#">Certification</a>
+                                    <ul class="dropdown-menu">
+                                        <li>@Html.ActionLink(Menu.ProfessionalQualification, "Index", "ProfessionalQualification")</li>
+                                        <li>@Html.ActionLink(Menu.CertificationPlace, "Index", "CertificationPlace")</li>
+                                    </ul>
+                                </li>
+                                <li>@Html.ActionLink(Menu.Court, "Index", "Court")</li>
+                                <li>@Html.ActionLink(Menu.ImmigrationOffice, "Index", "ImmigrationOffice")</li>
+                                <li>@Html.ActionLink(Menu.DrivingLicenseOffice, "Index", "DrivingLicenseOffice")</li>
+                            </ul>
+                        </li>
+                        <li class="dropdown-submenu">
+                            <a href=" #">@Menu.ApplicationSetting</a>
+                            <ul class="dropdown-menu">
+                                <li>@Html.ActionLink(Menu.PublicHoliday, "Index", "PublicHoliday")</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">
+                        @Menu.Client<b class=" fa fa-angle-down"></b>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink(Menu.ClientCompany, "Index", "ClientCompany")</li>
+                        <li>@Html.ActionLink(Menu.ClientAccount, "Index", "ClientAccount")</li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a data-toggle="dropdown" data-hover="dropdown" class="dropdown-toggle" href="#">Production <b class=" fa fa-angle-down"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>@Html.ActionLink(Menu.Screening, "Index", "Screening")</li>
+                        <li>@Html.ActionLink(Menu.AtomicCheck, "Index", "AtomicCheck")</li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#">Statistics</a>
+                </li>
+                <li class="dropdown">
+                    @Html.ActionLink("About", "About", "Home")
+                </li>
+                <li class="dropdown">
+                    @Html.ActionLink("Contact", "Contact", "Home")
+                </li>
+            }
+            else
+            {
+                <li class="dropdown">
+                    @Html.ActionLink("Home", "Index", "Home")
+                </li>
+                <li class="dropdown">
+                    @Html.ActionLink("About", "About", "Home")
+                </li>
+                <li class="dropdown">
+                    @Html.ActionLink("Contact", "Contact", "Home")
+                </li>
+            }
+        </ul>
+
+        <!--  top menu end -->
+    </div>
+    <!-- login menu start -->
+    <div class="top-nav">
+        @Html.Partial("_LoginPartial")
+    </div>
+    <!-- login menu end -->
+</header>

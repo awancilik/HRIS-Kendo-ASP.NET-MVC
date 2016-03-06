@@ -1,0 +1,137 @@
+﻿@using CVScreeningWeb.Helpers
+@using CVScreeningWeb.Resources
+@using Kendo.Mvc.UI
+@model CVScreeningWeb.ViewModels.AtomicCheck.AtomicCheckFormViewModel
+           
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/screening.atomiccheck.js")"></script>
+}
+
+@{
+    ViewBag.PanelClass = "col-md-10 col-md-offset-1";  
+    ViewBag.Title = Common.Edit + " " + Screening.AtomicCheck;
+    ViewBag.IsKendoEnabled = true;
+}
+
+@Html.ValidationSummary()
+
+@using (Html.BeginForm("Edit", "AtomicCheck", FormMethod.Post, new { @class = "form-horizontal", @id = "edit-atomic-check-form" }))
+{
+    @Html.AntiForgeryToken()
+    <fieldset>
+
+        @Html.HiddenFor(m => m.Id)
+        @Html.HiddenFor(m => m.ScreeningId)
+        @Html.HiddenFor(m => m.PreviousPage)
+        @Html.HiddenFor(m => m.ScreeningPhysicalPath)
+
+        @Html.DisplayFor(m => m.ScreeningFullName)
+        @Html.DisplayFor(m => m.AssignedTo)
+        @Html.DisplayFor(m => m.TypeOfCheck)
+        @Html.DisplayFor(m => m.Category)
+        
+        @if (!String.IsNullOrEmpty(Model.QualificationPlaceName))
+        {
+            <div class="form-group">
+                @Html.Bootstrap().Label("Qualification place").Class(CSSHelper.LABEL_CONTROL_CLASS)
+                <div class=@CSSHelper.INPUT_DIV_CLASS>
+                    @Html.ActionLink(Model.QualificationPlaceName, "ManageForQualificationPlace", "Contact", new { Id = Model.QualificationPlaceId }, new { target = "_blank" })
+                </div>
+            </div>
+        }
+        
+
+
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Description).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @Html.Bootstrap().TextAreaFor(m => m.Description).Class("form-control text-area-atomiccheck").Readonly()
+                @Html.ValidationMessageFor(m => m.Description)
+            </div>
+        </div>
+
+        @if (!String.IsNullOrEmpty((Model.Comments)))
+        {
+            @Html.DisplayFor(m => m.Comments)
+        }
+
+        @Html.EditorFor(m => m.Summary)
+        <div class="form-group">
+            @Html.Bootstrap().LabelFor(m => m.Report).Class(CSSHelper.LABEL_CONTROL_CLASS)
+            <div class=@CSSHelper.INPUT_DIV_CLASS>
+                @(Html.Kendo().EditorFor(m => m.Report)
+                      .HtmlAttributes(new { style = "height:440px" }).Encode(false)
+                      .Tools(tools => tools
+                          .Clear()
+                          .Bold().Italic().Underline().Strikethrough()
+                          .JustifyLeft().JustifyCenter().JustifyRight().JustifyFull()
+                          .InsertUnorderedList().InsertOrderedList()
+                          .Outdent().Indent()
+                          .CreateLink().Unlink()
+                          .InsertImage()
+                          .SubScript()
+                          .SuperScript()
+                          .ViewHtml()
+                          .TableEditing()
+                          .Formatting(formatting => formatting
+                              .Add("Paragraph", ".custParagraph")
+                              .Add("Heading1", ".custHead1")
+                          )
+                          .FontName()
+                          .FontSize()
+                          .FontColor().BackColor()
+                      ) .ImageBrowser(imageBrowser => imageBrowser
+                          .Image(@Model.AtomicCheckPictureReportVirtualPath + "/{0}")
+                          .Read("ImageRead", "AtomicCheckEditorImageBrowser", new { id = @Model.Id })
+                          .Create("ImageCreate", "AtomicCheckEditorImageBrowser", new { id = @Model.Id })
+                          .Destroy("ImageDestroy", "AtomicCheckEditorImageBrowser", new { id = @Model.Id })
+                          .Upload("ImageUpload", "AtomicCheckEditorImageBrowser", new { id = @Model.Id })
+                          .Thumbnail("ImageThumbnail", "AtomicCheckEditorImageBrowser", new { id = @Model.Id }))
+                     .StyleSheets(css => css.Add("../../Content/kendoritchtexteditor.css"))      
+                )
+            </div>
+        </div>
+        @Html.EditorFor(m => m.AttachmentFiles)
+        @if (Model.Attachments != null && Model.Attachments.Any())
+        {
+            @Html.DisplayFor(m => m.Attachments);
+        }
+        @Html.EditorFor(m => m.Status)
+        @Html.EditorFor(m => m.ValidationStatus) 
+        @Html.EditorFor(m => m.Remarks)
+        <br />
+        <br />
+        <div class="form-group">
+            <div class="col-lg-offset-3 col-lg-8">
+                @Html.Bootstrap().SubmitButton().Text(Common.Submit)
+                @if (String.IsNullOrEmpty(Model.PreviousPage))
+                {
+                    @Html.ActionLink(Common.Cancel, "ManageForScreening", "AtomicCheck", new { id = Model.ScreeningId }, new { Class = "btn  btn-default" })
+                }
+                else
+                {
+                    <a class="btn  btn-default" href="@Model.PreviousPage">@Common.Cancel</a>
+                }
+            </div>
+        </div>
+        
+        <script>
+            
+            // A $( document ).ready() block.
+            $(document).ready(function () {
+                screeningNamespace.initialize();
+            });
+
+            // Dropdown list disabled does not post data during the submit. To avoid that, dropdown list is enabled just before the submit
+            $("#edit-atomic-check-form").submit(function () {
+                $("#Status_PostData").prop("disabled", false);
+                $("#ValidationStatus_PostData").prop("disabled", false);
+            });
+        </script>
+
+
+
+    </fieldset>
+}
+
